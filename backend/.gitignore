@@ -1,0 +1,13 @@
+# Java (Spring Boot)
+target/
+*.log
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE/Editor specific
+.vscode/
+.idea/
+*.swp
+.DS_Store
