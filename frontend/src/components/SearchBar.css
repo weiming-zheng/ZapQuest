@@ -1,0 +1,35 @@
+.search-form {
+  position: relative;  /* 确保放大镜图标相对输入框定位 */
+  display: flex;
+  align-items: center;
+}
+
+/* 输入框样式 */
+.search-input {
+  padding: 5px 40px 5px 10px;  /* 给右侧留出空间给图标 */
+  width: 250px;  /* 设置固定宽度，也可以根据需要调整 */
+  height: 40px;  /* 设置与 Post 和 MyPost 按钮一致的高度 */
+  border: 1px solid #ccc;
+  border-radius: 20px;  /* 圆角边框 */
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box;  /* 确保边框计算在内 */
+}
+
+/* 放大镜按钮 */
+.search-button {
+  position: absolute;
+  right: 10px;  /* 放置在输入框的右侧 */
+  top: 50%;
+  transform: translateY(-50%);  /* 垂直居中 */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 18px;
+}
+
+/* 悬停时的效果 */
+.search-button:hover {
+  color: #0056b3;
+}

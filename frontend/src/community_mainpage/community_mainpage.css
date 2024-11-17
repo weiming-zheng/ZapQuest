@@ -1,0 +1,41 @@
+.community_mainpage {
+    background-color: #f0f0f0; 
+    height: 100vh; /* 占满整个视口高度 */
+    display: flex;
+    flex-direction: column; /* 子元素垂直排列 */
+    font-family: Arial, sans-serif;
+  }
+  
+  .community_mainpage-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    font-size: 24px;
+    position: fixed; /* 固定在顶部 */
+    top: 0;
+    left: 16.8%;
+    width: 81.5%; /* 宽度是总宽度的百分比，避免重叠 */
+    height: 100px; /* 固定高度 */
+    z-index: 1; 
+  }
+  
+  .sidebar {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: white;
+    color: black;
+    padding-top: 20px;
+  
+  }
+  
+  .maincontent {
+    padding: 20px;
+    background-color: #ebf7ff;
+    flex-grow: 1; /* 让 MainContent 占据剩余空间 */
+    overflow-y: auto; /* 添加滚动条以支持内容过长 */
+    z-index: 1;
+  }
+  

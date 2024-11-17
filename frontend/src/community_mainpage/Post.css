@@ -1,0 +1,99 @@
+.post {
+    background-color: white;
+    top: 40px;
+    position: relative;  /* 使其相对于其正常位置定位 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 5px; /* 使用 margin 来调整位置 */
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between; /* 标题和操作按钮分居两侧 */
+    align-items: center; /* 按钮和标题垂直居中对齐 */
+}
+
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    flex: 1; /* 占据剩余空间，避免按钮挤占标题 */
+    text-decoration: none;
+}
+
+.post-actions {
+    display: flex;
+    gap: 25px; /* 按钮间距 */
+}
+
+.edit-button,
+.delete-button {
+    background: none; /* 去除默认背景 */
+    border: none; /* 去除默认边框 */
+    font-size: 18px; /* 调整按钮大小 */
+    color: black; /* 按钮颜色 */
+    cursor: pointer; /* 鼠标悬停时显示手形光标 */
+    padding: 0; /* 去除多余的内边距 */
+}
+
+.edit-button i,
+.delete-button i {
+    font-size: 24px; /* 调整图标大小 */
+}
+
+.edit-button:hover,
+.delete-button:hover {
+    color: #0056b3; /* 悬停时按钮变色 */
+}
+
+.post-content {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 14px;
+    color: #888;
+    gap: 20px;
+}
+
+.post-author {
+    font-weight: bold;
+    width: 60px;
+}
+
+.post-date {
+    color: #888;
+}
+
+.post-date i{
+    margin-right: 5px;
+    color:#888;
+}
+
+.post-likes {
+    color: #888;
+    width: 60px;
+}
+
+.post-likes i {
+    margin-right: 5px;
+    color: #888;
+    cursor: pointer;
+}
+
+.post-likes i.liked {
+    color: red;  /* 被点击后变成红色 */
+}
+
+.post-author i {
+    margin-right: 5px;
+    color: #888;
+}

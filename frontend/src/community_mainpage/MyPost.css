@@ -1,0 +1,19 @@
+.my-post {
+    padding: 5px 10px;
+    background-color: white;
+    color: #0056b3;
+    border: 1px solid #0056b3; /* 确保按钮边框样式一致 */
+    border-radius: 5px;
+    font-size: 16px; /* 统一字体大小 */
+    height: 40px; /* 固定高度，与搜索框一致 */
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
+  }
+  
+  .my-post:hover {
+    background-color: #0056b3; /* 悬停时背景颜色 */
+    color: white; /* 悬停时字体颜色变为白色 */
+    border-color: #004085; /* 悬停时边框颜色稍微变深 */
+}
