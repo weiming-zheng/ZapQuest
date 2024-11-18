@@ -16,26 +16,26 @@
 }
 
 .top-section {
-    position: absolute;  /* 绝对定位让它覆盖maincontent的最上面 */
+    position: absolute;  
     top: 0;
     left: 0;
     right: 0;
-    background-color: white;  /* 新的背景颜色 */
-    padding: 25px 40px;  /* 调整内边距 */
+    background-color: white;  
+    padding: 25px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-radius: 8px;
-    z-index: 10;  /* 确保它位于maincontent的上方 */
+    z-index: 10;  
 }
 
 .search-post-container {
-    position: absolute; /* 确保相对于 header 定位 */
-    top: 0px;  /* 距离 header 底部 10px */
-    right: 25px;  /* 距离 header 右侧 20px */
-    display: flex;  /* 使用 flex 布局，使子元素水平排列 */
-    gap: 10px;  /* 让 search 和 post 之间有间距 */
-    align-items: center;  /* 垂直居中对齐 */
+    position: absolute; 
+    top: 0px;  
+    right: 25px;  
+    display: flex;  
+    gap: 10px; 
+    align-items: center; 
   }
 
 .sort-dropdown{

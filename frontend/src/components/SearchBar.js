@@ -9,7 +9,6 @@ function SearchBar() {
   };
 
   const handleSearchClick = () => {
-      // 执行搜索逻辑，可以通过传递 searchTerm 触发搜索
       console.log("search content:", searchTerm);
   };
   return (
@@ -22,7 +21,7 @@ function SearchBar() {
         className="search-input"
       />
       <button className="search-button" onClick={handleSearchClick}>
-          <i className="fas fa-search"></i> {/* 放大镜图标 */}
+          <i className="fas fa-search"></i>
       </button>
     </div>
   );

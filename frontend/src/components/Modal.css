@@ -30,9 +30,9 @@
 
 .topic,
 .content {
-    font-size: 16px; /* 确保字体一致 */
+    font-size: 16px; 
     color: #333;
-    margin-bottom: 10px; /* 添加底部间距 */
+    margin-bottom: 10px; 
     text-align: left;
 }
 

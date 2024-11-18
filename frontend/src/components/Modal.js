@@ -23,7 +23,7 @@ function Modal({ isVisible, onClose, onSubmit, mode, postData }) {
     };
 
     const handleDelete = () => {
-        onSubmit(postData); // 在删除时只提交 postData
+        onSubmit(postData); 
         onClose();
     };
 

@@ -24,25 +24,31 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
 
     const getPostsToDisplay = () => (isMyPost ? myPosts : posts);
 
+    const handleAddPost = () => {
+        setModalMode("add"); // 设置模式为 add
+        setModalData({});
+        setIsModalVisible(true); // 显示模态框
+    };
+
     const handleEditPost = (post) => {
         setModalMode("edit");
-        setModalData(post); // 将需要编辑的数据传入
+        setModalData(post); 
         setIsModalVisible(true);
     };
 
     const handleDeletePost = (post) => {
         setModalMode("delete");
-        setModalData(post); // 将需要删除的数据传入
+        setModalData(post); 
         setIsModalVisible(true);
     };
 
     const handleSubmit = (data) => {
         if (modalMode === "edit") {
-            // 更新 myPosts 或 posts
+            
         } else if (modalMode === "delete") {
-            // 删除 myPosts 或 posts
+            
         }
-        setIsModalVisible(false); // 关闭弹窗
+        setIsModalVisible(false); 
     };
 
     const handleCloseModal = () => {
@@ -76,7 +82,7 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
 
                 <SearchBar />
                 <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
-                <PostButton />
+                <PostButton onClick={handleAddPost}/>
             </div></div>
             {postsToDisplay.map((post, index) => (
                 <Post

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import './Post.css';
 
 function Post({ title, content, author, date, initialLikes, isMyPost, onEdit, onDelete }) {
@@ -16,8 +15,7 @@ function Post({ title, content, author, date, initialLikes, isMyPost, onEdit, on
     };
 
     const handleTitleClick = (e) => {
-        e.preventDefault(); // 阻止默认跳转行为
-        // 执行你想要的逻辑，例如打开一个模态框、更新状态等
+        e.preventDefault(); 
         console.log("Title clicked, no navigation.");
     };
 

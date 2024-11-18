@@ -9,7 +9,7 @@ function Community_mainpage() {
   const [buttonText, setButtonText] = useState('My Post');
 
   const handleToggleMyPost = () => {
-    setIsMyPost(!isMyPost);  // 切换状态
+    setIsMyPost(!isMyPost);  
     setButtonText(isMyPost?'My Post':'All Posts');
   };
 
