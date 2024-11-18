@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    padding: 20px;
+    background-color:rgb(255, 255, 255);
+    color: white;
+    position: fixed;
+    left: 16.8%;
+    top: 0;
+    width: 81.5%;
+    height: 100px;
+    color: #282c34;
+  }
+  
+  .page-title {
+    font-size: 24px;
+  }
+  
+  .category-selector {
+    margin-right: 20px;
+  }
+
+
+
+  .my-post-button {
+    padding: 10px 20px;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }

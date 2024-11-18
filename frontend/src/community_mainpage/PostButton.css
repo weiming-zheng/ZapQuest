@@ -1,0 +1,23 @@
+.post-button {
+    padding: 0 15px; /* 使左右内边距更一致 */
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid transparent;  /* 确保按钮边框样式一致 */
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;  /* 使内容垂直居中 */
+    justify-content: center;  /* 使内容水平居中 */
+    font-size: 16px;
+    height: 40px;  /* 保证高度一致 */
+    min-width: 100px;  /* 设置最小宽度 */
+    box-sizing: border-box;  /* 确保内边距不会影响按钮的尺寸 */
+}
+  
+  .post-button:hover {
+    background-color: #0056b3;
+  }
+
+  .post-button i {
+    margin-right: 10px;
+  }

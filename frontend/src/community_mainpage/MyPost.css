@@ -1,0 +1,19 @@
+.my-post {
+    padding: 5px 10px;
+    background-color: white;
+    color: #0056b3;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    font-size: 16px; 
+    height: 40px; 
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
+  }
+  
+  .my-post:hover {
+    background-color: #0056b3; 
+    color: white; 
+    border-color: #004085; 
+}
