@@ -1,4 +1,4 @@
-import Community_mainpage from './community_mainpage/community_mainpage.js';
+import Community_mainpage from './pages/community_mainpage/community_mainpage.js';
 import './App.css';
 
 function App() {

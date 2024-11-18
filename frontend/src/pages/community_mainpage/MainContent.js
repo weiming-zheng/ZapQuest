@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import './MainContent.css';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import PostButton from './PostButton';
 import MyPost from './MyPost';
 import Post from "./Post";
-import Modal from '../components/Modal';
+import Modal from '../../components/Modal';
 
 function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     const [sortOrder, setSortOrder] = useState("mostRecent");
