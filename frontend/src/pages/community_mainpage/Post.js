@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './Post.css';
 
+
 function Post({ title, content, author, date, initialLikes, isMyPost, onEdit, onDelete }) {
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes);
