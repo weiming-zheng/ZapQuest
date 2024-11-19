@@ -6,7 +6,7 @@ import CommunityPage from './pages/community_mainpage/community_mainpage.js';
 import LoginPage from './pages/Login/LoginPage.js'
 import ParentLogin from './pages/Login/ParentLogin.js';
 import ChildLogin from './pages/Login/ChildLogin.js';
-import MainPage from './pages/MainPage/MainPage.js';
+import MainPage from './pages/LandingPage/LandingPage.js';
 
 
 function App() {
