@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CommunityPage from './pages/community_mainpage/community_mainpage.js';
 import RoleSelectionPage from "./pages/Login/RoleSelection.js"; 
-import LoginPage from './pages/Login/LoginPage.js'
 import ParentLogin from './pages/Login/ParentLogin.js';
 import ChildLogin from './pages/Login/ChildLogin.js';
+import RegistrationPage from './pages/Login/RegistrationPage';
 import MainPage from './pages/LandingPage/LandingPage.js';
 
 
@@ -26,6 +26,9 @@ function App() {
           
           {/* Child login page */}
           <Route path="/child-login" element={<ChildLogin />} />
+
+          {/* Registration page */}
+          <Route path="/register" element={<RegistrationPage />} />
 
           {/* Community Page*/}
           <Route path="/community-page" element={<CommunityPage/>} />
