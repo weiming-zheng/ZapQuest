@@ -20,14 +20,29 @@ function ChildLogin() {
   };
 
   return (
-    <div>
-      <h2>Child Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Enter Login Code:</label>
-        <input type="text" value={loginCode} onChange={(e) => setLoginCode(e.target.value)} required />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="min-h-screen bg-sky-50 flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-xl p-8 w-full sm:w-96">
+        <h2 className="text-2xl font-semibold text-center mb-6">Child Login</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium">Enter Login Code</label>
+            <input
+              type="text"
+              value={loginCode}
+              onChange={(e) => setLoginCode(e.target.value)}
+              required
+              className="w-full p-2 border rounded-md text-sm"
+            />
+          </div>
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
