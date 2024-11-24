@@ -9,6 +9,8 @@ import ParentLogin from './pages/Login/ParentLogin.js';
 import ChildLogin from './pages/Login/ChildLogin.js';
 import RegistrationPage from './pages/Login/RegistrationPage';
 import MainPage from './pages/LandingPage/LandingPage.js';
+import ParentTasks from './pages/tasks/ParentTasks.js';
+
 
 
 function App() {
@@ -33,6 +35,9 @@ function App() {
 
           {/* Community Page*/}
           <Route path="/community-page" element={<CommunityPage/>} />
+
+          {/* Parent Tasks page*/}
+          <Route path="/parent-tasks" element={<ParentTasks />} />
         </Routes>
       </div>
     </Router>
