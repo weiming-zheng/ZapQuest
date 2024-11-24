@@ -6,8 +6,8 @@
     position: fixed;
     left: 16.8%;
     top: 0;
-    width: 81.5%;
-    height: 100px;
+    width: calc(100% - 16.8%);
+    height: 75px;
     color: #282c34;
   }
   

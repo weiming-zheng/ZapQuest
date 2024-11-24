@@ -5,7 +5,7 @@ function Header() {
 
   return (
     <header className="header">
-      <h1 className="page-title">Community</h1>
+      
     </header>
   );
 }

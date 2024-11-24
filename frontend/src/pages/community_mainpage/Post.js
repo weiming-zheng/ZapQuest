@@ -42,9 +42,6 @@ function Post({ title, content, author, date, initialLikes, isMyPost, onEdit, on
                 <span className="post-likes" onClick={handleLikeClick}>
                     <i className={`fas fa-heart ${isLiked ? 'liked' : ''}`}></i> {initialLikes}
                 </span>
-                <span className="post-author">
-                    <i className="fas fa-user"></i>{author}
-                </span>
                 <span className="post-date">
                     <i className="fas fa-clock"></i>{date}
                 </span>
