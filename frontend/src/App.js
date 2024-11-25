@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CommunityPage from './pages/community_mainpage/community_mainpage.js';
-import Community_detailpage from './pages/community_detailpage/community_detailpage.js';
+import CommunityDetailPage from './pages/community_detailpage/community_detailpage.js';
 import RoleSelectionPage from "./pages/Login/RoleSelection.js"; 
 import ParentLogin from './pages/Login/ParentLogin.js';
 import ChildLogin from './pages/Login/ChildLogin.js';
@@ -22,7 +22,12 @@ function App() {
         {/* Set up routes for different login pages */}
         <Routes>
           {/* General Landing page */}
+<<<<<<< Updated upstream
           <Route path="/" element={<Rewards_mainpage />} />
+=======
+          <Route path="/" element={<MainPage />} />
+          {/* Role Selection page */}
+>>>>>>> Stashed changes
           <Route path="/login" element={<RoleSelectionPage />} />
           
           {/* Parent login page */}
@@ -35,10 +40,13 @@ function App() {
           <Route path="/register" element={<RegistrationPage />} />
 
           {/* Community Page*/}
-          <Route path="/community-page" element={<CommunityPage/>} />
+          <Route path="/community" element={<CommunityPage/>} />
 
           {/* Parent Tasks page*/}
           <Route path="/parent-tasks" element={<ParentTasks />} />
+
+          {/* Community Posts page*/}
+          <Route path="/community-detail" element={<CommunityDetailPage />} />
         </Routes>
       </div>
     </Router>
