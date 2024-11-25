@@ -1,6 +1,6 @@
 import React,{useState}from 'react';
-import Header from './Header';  
-import SideBar from './SideBar';
+import Header from '../../components/Header';  
+import SideBar from '../../components/SideBar';
 import MainContent from './MainContent';
 import './community_mainpage.css';
 
@@ -18,7 +18,9 @@ function Community_mainpage() {
       <MainContent isMyPost={isMyPost} onToggleMyPost={handleToggleMyPost} buttonText={buttonText} />
       <SideBar />
       
-      <Header  />  
+      <Header>
+        <h1 className="page-title">Community</h1>
+      </Header>
     </div>
   );
 }

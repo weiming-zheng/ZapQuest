@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import CommunityPage from './pages/community_mainpage/community_mainpage.js';
+import Community_detailpage from './pages/community_detailpage/community_detailpage.js';
 import RoleSelectionPage from "./pages/Login/RoleSelection.js"; 
 import ParentLogin from './pages/Login/ParentLogin.js';
 import ChildLogin from './pages/Login/ChildLogin.js';
@@ -20,7 +21,7 @@ function App() {
         {/* Set up routes for different login pages */}
         <Routes>
           {/* General Landing page */}
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<Community_detailpage />} />
           <Route path="/login" element={<RoleSelectionPage />} />
           
           {/* Parent login page */}
