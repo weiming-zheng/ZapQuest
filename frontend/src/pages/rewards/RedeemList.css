@@ -1,0 +1,68 @@
+.avatar{
+    font-size: 30px;
+    margin-left:15px;
+
+}
+
+.task{
+    display: flex; /* 使用 flexbox 来水平排列标签 */
+    align-items: center; /* 垂直居中对齐 */
+    margin-top: 10px;
+    height: 50px;
+    background-color: white; /* 设置背景色 */
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;   
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */ 
+}
+
+.title1{
+    margin-left: 10px;
+    margin-right: 150px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width:600px;
+    text-align: left;
+}
+
+.coin{
+    width:20px;
+    height:20px;
+    margin-right: 80px;
+}
+
+
+.price{
+    margin-right: 10px;
+    width:100px;
+    text-align: left;
+}
+.btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+/* Redeem 按钮样式 */
+.redeem-btn {
+    background-color: white;
+    color: blue;
+   
+  }
+  
+  .redeem-btn:hover {
+    background-color: lightblue;
+    color: white;
+  }
+  
+  /* Redeemed 按钮样式 */
+  .redeemed-btn {
+    background-color: white;
+    color: gray;
+    border: 1px solid gray;
+    cursor: not-allowed; /* 禁止鼠标点击的效果 */
+  }
+  

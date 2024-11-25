@@ -1,0 +1,50 @@
+.avatar{
+    font-size: 30px;
+    margin-left:15px;
+
+}
+
+.task{
+    display: flex; /* 使用 flexbox 来水平排列标签 */
+    align-items: center; /* 垂直居中对齐 */
+    height: 50px;
+    background-color: white; /* 设置背景色 */
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;   
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */ 
+}
+
+.title1{
+    margin-left: 10px;
+    margin-right: 150px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width:600px;
+    text-align: left;
+}
+
+.coin{
+    width:20px;
+    height:20px;
+    margin-right: 80px;
+}
+
+.price{
+    margin-right: 10px;
+    width:100px;
+    text-align: left;
+}
+
+.edit-button{
+    text-align: right; 
+    right:0;
+    color: #1859FF;
+}
+.delete-button{
+    color: #1859FF;
+}
+.post-actions{
+    margin-top: 0px;
+}

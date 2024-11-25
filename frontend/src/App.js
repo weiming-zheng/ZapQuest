@@ -10,6 +10,7 @@ import ChildLogin from './pages/Login/ChildLogin.js';
 import RegistrationPage from './pages/Login/RegistrationPage';
 import MainPage from './pages/LandingPage/LandingPage.js';
 import ParentTasks from './pages/tasks/ParentTasks.js';
+import Rewards_mainpage from "./pages/rewards/Rewards_mainpage.js";
 
 
 
@@ -21,7 +22,7 @@ function App() {
         {/* Set up routes for different login pages */}
         <Routes>
           {/* General Landing page */}
-          <Route path="/" element={<Community_detailpage />} />
+          <Route path="/" element={<Rewards_mainpage />} />
           <Route path="/login" element={<RoleSelectionPage />} />
           
           {/* Parent login page */}
