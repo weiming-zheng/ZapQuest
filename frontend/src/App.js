@@ -22,12 +22,9 @@ function App() {
         {/* Set up routes for different login pages */}
         <Routes>
           {/* General Landing page */}
-<<<<<<< Updated upstream
-          <Route path="/" element={<Rewards_mainpage />} />
-=======
           <Route path="/" element={<MainPage />} />
+
           {/* Role Selection page */}
->>>>>>> Stashed changes
           <Route path="/login" element={<RoleSelectionPage />} />
           
           {/* Parent login page */}
@@ -47,6 +44,10 @@ function App() {
 
           {/* Community Posts page*/}
           <Route path="/community-detail" element={<CommunityDetailPage />} />
+
+          {/*Rewards page*/}
+          <Route path="/rewards" element={<Rewards_mainpage />} />
+          
         </Routes>
       </div>
     </Router>
