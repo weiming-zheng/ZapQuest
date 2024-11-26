@@ -18,9 +18,7 @@ function Community_mainpage() {
       <MainContent isMyPost={isMyPost} onToggleMyPost={handleToggleMyPost} buttonText={buttonText} />
       <SideBar />
       
-      <Header>
-        <h1 className="page-title">Community</h1>
-      </Header>
+      <Header title="Community" />
     </div>
   );
 }
