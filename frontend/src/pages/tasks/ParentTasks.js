@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function ParentTasks() {
   // Example tasks data
-  const [tasks] = useState([
+  const [tasks, setTasks] = useState([
     { id: 1, title: "Fold the quilt", status: "Complete", category: "Custom", finishTime: "Oct 24, 2024", postTime: "Oct 24, 2024", points: 1 },
     { id: 2, title: "Complete homework", status: "Incomplete", category: "CTE Pre-Set", postTime: "Oct 24, 2024", points: 5 },
     { id: 3, title: "Do the dishes", status: "Complete", category: "Custom", finishTime: "Oct 24, 2024", postTime: "Oct 24, 2024", points: 2 },
@@ -14,7 +14,8 @@ function ParentTasks() {
 
   // Dynamic Status for current page
   const [currentPage, setCurrentPage] = useState("tasks");
-
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
+  const [newTask, setNewTask] = useState({ title: "", category: "", points: 0 });
   const [statusFilter, setStatusFilter] = useState("all"); // Default: show all tasks
   const [categoryFilter, setCategoryFilter] = useState("all"); // Default: show all categories
 
@@ -24,6 +25,12 @@ function ParentTasks() {
     const matchesCategory = categoryFilter === "all" || task.category === categoryFilter;
     return matchesStatus && matchesCategory;
   });
+
+  const handleAddTask = () => {
+    setTasks([...tasks, { ...newTask, id: tasks.length + 1, status: "Incomplete", postTime: new Date().toLocaleDateString() }]);
+    setIsModalOpen(false); // Close modal after adding the task
+    setNewTask({ title: "", category: "", points: 0 }); // Reset new task
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -91,7 +98,10 @@ function ParentTasks() {
             {/* Header */}
             <header className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-semibold">Tasks</h1>
-              <button className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-600">
+              <button
+                className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-blue-600"
+                onClick={() => setIsModalOpen(true)}
+              >
                 Add Task
               </button>
             </header>
@@ -137,7 +147,7 @@ function ParentTasks() {
           </div>
         </div>
 
-        {/* Bottom Section with Pink Background */}
+        {/* Task List */}
         <div className="p-6">
           <div className="space-y-4">
             {filteredTasks.map((task) => (
@@ -168,6 +178,54 @@ function ParentTasks() {
             ))}
           </div>
         </div>
+
+        {/* Modal for Adding Task */}
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-1/3">
+              <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  placeholder="Task Title"
+                  value={newTask.title}
+                  onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                />
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded"
+                  placeholder="Category"
+                  value={newTask.category}
+                  onChange={(e) => setNewTask({ ...newTask, category: e.target.value })}
+                />
+                <input
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Points"
+                  value={newTask.points}
+                  onChange={(e) => setNewTask({ ...newTask, points: e.target.value })}
+                />
+              </div>
+              <div className="flex justify-end space-x-4 mt-4">
+                <button
+                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  onClick={handleAddTask}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        
       </main>
     </div>
   );
