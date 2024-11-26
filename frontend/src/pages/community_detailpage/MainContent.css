@@ -13,3 +13,16 @@
     flex-grow: 1;
     z-index: 1;
 }
+
+.post-detail {
+    border: none ;
+    margin-bottom: 20px;
+  }
+  
+  .comments-section {
+    border: none;
+
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+  }

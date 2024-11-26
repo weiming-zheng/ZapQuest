@@ -11,21 +11,26 @@
     color: #282c34;
   }
   
-  .page-title {
-    font-size: 24px;
+  .header-nav {
+    font-size: 16px;
+    color: #212529;
   }
   
-  .category-selector {
-    margin-right: 20px;
+  .breadcrumb {
+    font-weight: bold;
+    text-decoration: underline;
   }
-
-
-
-  .my-post-button {
-    padding: 10px 20px;
-    background-color: #61dafb;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+  
+  .breadcrumb:hover {
+    color: #0056b3;
+  }
+  
+  .breadcrumb-separator {
+    margin: 0 5px;
+    color: #6c757d;
+  }
+  
+  .current-title {
+    font-size: 18px;
+    font-weight: bold;
   }

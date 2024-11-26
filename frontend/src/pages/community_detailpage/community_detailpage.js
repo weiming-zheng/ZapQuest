@@ -3,13 +3,18 @@ import Header from '../../components/Header';
 import SideBar from '../../components/SideBar';
 import MainContent from './MainContent';
 import './community_detailpage.css';
+import { useNavigate } from 'react-router-dom';
 
 function Community_detailpage(){
+    const navigate = useNavigate();
+
+    const handleBreadcrumbClick = () => {
+        navigate('/community'); // 返回 Community 页面
+      };
+
     return(
         <div className='community_detailpage'>
-            <Header>
-                <p className='route'>title</p>
-            </Header>
+            <Header title="Post Title" breadcrumb="Community" onBreadcrumbClick={handleBreadcrumbClick} />
             <MainContent />
             <SideBar />
         </div>
