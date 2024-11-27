@@ -5,7 +5,7 @@ import RewardsMainContent from "./RewardsMainContent";
 
 function Rewards_mainpage(){
     return (<div className="community_mainpage">
-        <Header header_name = "Rewards" />  
+        <Header title = "Rewards" />  
         <RewardsMainContent />
         <SideBar />
         
