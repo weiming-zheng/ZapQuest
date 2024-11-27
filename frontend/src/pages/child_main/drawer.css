@@ -1,0 +1,27 @@
+/* 修改后的 CSS */
+.drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px); /* 减去头部和padding的高度 */
+  }
+  
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .logout_button {
+    margin-top: auto; /* 这会把按钮推到底部 */
+    padding: 0.5rem 2rem;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    align-self: center; /* 水平居中按钮 */
+  }
+  
+  .logout_button:hover { /* 移除了空格 */
+    background-color: #2563eb;
+  }
