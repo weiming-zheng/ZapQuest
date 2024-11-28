@@ -19,15 +19,7 @@
     z-index: 1; 
   }
   
-  .sidebar {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 250px;
-    background-color: white;
-    color: black;
-  }
+
   
   .maincontent {
     padding: 20px;

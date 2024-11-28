@@ -1,10 +1,18 @@
 import React from 'react';
 import './SideBar.css'; 
-import Logo from '../assets/ZAP_QUEST.png'
+import Logo from '../assets/ZAP_QUEST.png';
+import LogoutModal from './logout_modal';
+
 
 function SideBar() {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+  };
+  const [showModal, setShowModal] = React.useState(false);
+
+  const handleLogout = () => {
+    setShowModal(false);
+    // 添加登出逻辑
   };
 
   return (
@@ -27,13 +35,18 @@ function SideBar() {
         <li><a href="#"><i className="fas fa-user-group"></i>
           Community</a>
           </li>
-        <li><a href="#"><i className="fas fa-cog"></i>
-          Setting</a>
-          </li>
-        <li><a href='#'><i className="far fa-bell"></i>
-          Notifications</a>
+        <li onClick={() => setShowModal(true)}><a href="#"><i className="fas fa-right-from-bracket"></i>
+          Log out</a>
           </li>
       </ul>
+
+        <LogoutModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => handleLogout()}
+        title="Log out"
+        message="Are you sure you want to log out ?"
+          />
     </div>
   );
 
