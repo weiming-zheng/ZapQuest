@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: zapquest
+  profiles:
+    active: dev
+# Initialize the database using data.sql
+#  jpa:
+#    defer-datasource-initialization: true
+#  sql:
+#    init:
+#      mode: always
+file:
+  storage:
+    upload-dir: ${user.dir}/uploads  # This will create an 'uploads' directory in your project root
+    allowed-types: image/jpeg,image/png,image/gif
+    max-file-size: 5242880  # 5MB in bytes

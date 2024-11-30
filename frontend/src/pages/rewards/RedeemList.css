@@ -4,7 +4,7 @@
 
 }
 
-.task{
+.redeemed{
     display: flex; /* 使用 flexbox 来水平排列标签 */
     align-items: center; /* 垂直居中对齐 */
     margin-top: 10px;

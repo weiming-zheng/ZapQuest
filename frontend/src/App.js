@@ -12,6 +12,7 @@ import MainPage from './pages/LandingPage/LandingPage.js';
 import ParentTasks from './pages/tasks/ParentTasks.js';
 import Rewards_mainpage from "./pages/rewards/Rewards_mainpage.js";
 import Child_main from './pages/child_main/child_main.js';
+import Child_task from './pages/child_task/Child_task.js';
 
 
 
@@ -52,8 +53,8 @@ function App() {
           {/*Child main page*/}
           <Route path="/child-main" element={<Child_main />} />
 
-          {/*Settings page*/}
-          <Route path="/settings" element={<Child_main />} />
+          {/*Child task page*/}
+          <Route path='/child-task' element={<Child_task />} />
           
         </Routes>
       </div>

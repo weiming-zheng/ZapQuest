@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none  # Don't auto-generate schema in production
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  sql:
+    init:
+      mode: never  # Don't run data.sql scripts in production
+
+  # Database configuration
+  datasource:
+    url: jdbc:mysql://your-production-host:3306/zapquest
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    root: INFO
+    org.hibernate: ERROR
