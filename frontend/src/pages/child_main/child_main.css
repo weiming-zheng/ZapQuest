@@ -1,10 +1,3 @@
-.header-title {
-  font-size: 1.25rem;     /* text-xl */
-  font-weight: 600;       /* font-semibold */
-  line-height: 1.75rem;   /* 这是text-xl的默认行高 */
-
-}
-
 .card {
     border-radius: 0.75rem; /* rounded-xl */
     width: 370px;
