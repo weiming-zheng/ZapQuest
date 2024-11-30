@@ -51,6 +51,9 @@ function App() {
 
           {/*Child main page*/}
           <Route path="/child-main" element={<Child_main />} />
+
+          {/*Settings page*/}
+          <Route path="/settings" element={<Child_main />} />
           
         </Routes>
       </div>
