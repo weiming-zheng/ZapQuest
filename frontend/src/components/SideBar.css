@@ -3,78 +3,86 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 16.8%;
+  width: 16%;
   background-color: white;
-  color: black;
-  padding-top: 0;
   display: flex;
   flex-direction: column;
+  padding-top: 10px;
+  box-shadow: none;
+}
+
+.sidebar-logo-container {
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Horizontally center the logo */
+  align-items: center; /* Vertically center (if necessary) */
+  margin-bottom: 30px; /* Spacing below the logo */
+  margin-top: 35px; /* Push the logo slightly downward */
 }
 
 .sidebar-logo {
-  width: 60%;
-  max-width: 150px;
-  height: auto;
-  display: block;
-  margin: 10px auto 10px;
+  width: 70%; /* Increase the width percentage for a larger logo */
+  max-width: 180px; /* Control the maximum size */
+  height: auto; /* Maintain the aspect ratio */
 }
 
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar li {
-  padding: 15px 20px;
-  border-bottom: none; 
-}
-
-.sidebar li:nth-child(3) { 
-  border-bottom: 1px solid #444; 
-}
-
-.sidebar li:hover {
-  background-color: #333;
-}
-
-.sidebar li:hover a {
-  color: white;
-}
-
-a {
-  line-height: 1.5;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; 
-  gap: 10px; 
-  text-decoration: none;
-  color: black;
-}
-
-i {
-  font-size: 16px;
-  width: 24px;
-  vertical-align: middle; /* 确保图标与文字垂直对齐 */
-  line-height: 1;
-}
 
 .copy-code {
-  margin-left: 20px;
+  margin-left: 0px;
   margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
   display: flex;
-  align-items: center;
+  align-items: center; /* Align items vertically centered */
+  justify-content: flex-start; /* Align items to the left horizontally */
+  background-color: transparent; /* Match the sidebar's background color */
+  padding: 20px; /* Optional: Add padding for spacing */
+  color: #000000a4;
 }
 
 .copy-code span {
-  font-size: 14px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .copy-code button {
-  padding: 5px 10px;
   background: none;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-link i {
+  font-size: 18px;
+}
+
+.sidebar-link:hover {
+  background-color: #f3f3f3;
+  color: #000;
+}
+
+.sidebar-link.active {
+
+  font-weight: bold; /* Optional: To make the active link stand out more */
+  background-color: #202c34;
+  color: white;
 }
