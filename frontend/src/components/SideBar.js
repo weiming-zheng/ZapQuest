@@ -4,6 +4,7 @@ import Logo from '../assets/ZAP_QUEST.png';
 import LogoutModal from './logout_modal';
 
 
+
 function SideBar() {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
