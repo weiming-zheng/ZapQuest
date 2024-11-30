@@ -4,9 +4,9 @@
     background-color:rgb(255, 255, 255);
     color: white;
     position: fixed;
-    left: 16.8%;
+    left: 16%;
     top: 0;
-    width: calc(100% - 16.8%);
+    width: calc(100% - 16%);
     height: 75px;
     color: #282c34;
   }
