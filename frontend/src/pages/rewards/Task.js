@@ -5,7 +5,7 @@ import coin from "../../assets/coin.png"
 function Task({title,price,onEdit, onDelete }){
 
     return(
-        <div className="task">
+        <div className="item">
             <p className = "avatar">🍦</p>
             <h4 className="title1">{title}</h4>
             <p className="price">{"Price: "+price}</p>

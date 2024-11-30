@@ -4,7 +4,7 @@
     padding: 20px;
     position: fixed;
     top: 60px; 
-    left: 16.8%;
+    left: 16%;
     right: 0; 
     bottom: 0; 
     background-color: #ebf7ff;
@@ -40,4 +40,5 @@
     padding: 10px;
     text-align: center;
     border-radius: 24px;   
+    width:100%;
 }

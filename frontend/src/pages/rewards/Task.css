@@ -4,7 +4,7 @@
 
 }
 
-.task{
+.item{
     display: flex; /* 使用 flexbox 来水平排列标签 */
     align-items: center; /* 垂直居中对齐 */
     height: 50px;
@@ -14,6 +14,8 @@
     border: 1px solid #ccc;
     border-radius: 15px;   
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */ 
+    margin-top: 10px;
+    width: 100%;
 }
 
 .title1{

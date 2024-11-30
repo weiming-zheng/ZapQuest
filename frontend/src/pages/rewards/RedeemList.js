@@ -4,7 +4,7 @@ import coin from "../../assets/coin.png"
 
 function RedeemList({title,price,isRedeemed,onRedeem }){
     return(
-        <div className="task">
+        <div className="redeemed">
             <p className = "avatar">🍦</p>
             <h4 className="title1">{title}</h4>
             <p className="price">{"Price: "+price}</p>
