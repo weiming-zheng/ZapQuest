@@ -26,8 +26,10 @@ public class Child extends BaseEntity {
     private Parent parent;
 
     @Column(nullable = false)
+    @Builder.Default
     private Integer coinBalance = 0;
 
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    @Builder.Default
     private Set<PurchasedItem> purchasedItems = new HashSet<>();
 }
