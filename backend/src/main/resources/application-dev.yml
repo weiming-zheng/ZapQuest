@@ -1,0 +1,34 @@
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/zapquest
+        username: root
+        password: .nnD8axG3w!hrYnxqTEx
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: create-drop
+        properties:
+            hibernate:
+                format_sql: true
+        # This will defer the initialization until after Hibernate is initialized
+        defer-datasource-initialization: true
+    sql:
+        init:
+            mode: always  # or 'never' if you don't want to run data.sql scripts
+
+logging:
+    level:
+        org.hibernate.SQL: DEBUG  # Shows SQL statements
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Shows SQL parameters
+        # To suppress the specific warnings about dropping non-existent tables
+        org.hibernate.tool.schema.internal.ExceptionHandlerLoggedImpl: ERROR
+
+server:
+    port: 8080
+    jwt:
+        secret-key: bf85d678620bd4f5a2de5e895dfb73969d7eda5bc20bd89645e07add8c601ebebd3f2c85957080f6324e2540be1987e242ff97772f882ccb1d02648cbb05caca6646034b02a9c7d073f7cf08ad5bce0c0e3f1fd5690886f41f6ab7f29f83dcdae6af3a4adc1aa201df684f5dfca0aba4b1e689e6d097a6d4050386a24d43e263e5305c64ec55cf5efef3a33ca3fa75204ee2fd54a6b9b48c194d3a7085480304c905328791d1bbe789098c640318c1588e3c77062ef477b3b6d61b829f707acd38abcdfe6c1da5b2ae79e3d7f941969988eddfe453b7a1c931d9a661e2ef7d8441d2bca297f1804cfd48f7d0d2ac9bd138c52b8512b641ba0132eed308963743
+        access-expiration: 259200000
+    encryption:
+        login-code-encryption-key: jK9x#mP2$vL5nQ8*zA3wR7@cF6hT9dN4
+

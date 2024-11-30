@@ -1,9 +1,8 @@
 // src/pages/tasks/ParentTasks.js
 import React, { useState } from "react";
-import logo from '../../assets/ZAP_QUEST.png';
 import coin from '../../assets/coin.png';
-import { Link } from "react-router-dom";
-
+import SideBar from "../../components/SideBar"; // import sidebar component
+ 
 function ParentTasks() {
   const [tasks, setTasks] = useState([
     { id: 1, title: "Fold the quilt", status: "Complete", category: "Custom", finishTime: "Oct 24, 2024", postTime: "Oct 24, 2024", points: 1 },
@@ -35,7 +34,6 @@ function ParentTasks() {
     return matchesStatus && matchesCategory;
   });
 
-  const handlePageChange = (page) => setTaskState(prev => ({ ...prev, currentPage: page }));
 
   const toggleExpandedTask = (taskId) => {
     setTaskState(prev => ({ ...prev, expandedTaskId: prev.expandedTaskId === taskId ? null : taskId }));
@@ -66,34 +64,15 @@ function ParentTasks() {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
 
-  const renderSidebarLink = (to, page, label) => (
-    <Link
-      to={to}
-      className={`w-full text-left px-4 py-2 rounded-lg ${taskState.currentPage === page ? "text-white bg-gray-800" : "text-gray-700 hover:bg-gray-100"}`}
-      onClick={() => handlePageChange(page)}
-    >
-      {label}
-    </Link>
-  );
 
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-white flex flex-col p-4">
-        <div className="flex flex-col items-center mb-8 mt-6">
-          <img src={logo} alt="Logo" className="h-20 w-auto mb-2" />
-        </div>
-        <nav className="space-y-4 mt-6">
-          {renderSidebarLink("/tasks", "tasks", "Tasks")}
-          {renderSidebarLink("/rewards", "rewards", "Rewards")}
-          {renderSidebarLink("/community", "community", "Community")}
-          {renderSidebarLink("/settings", "setting", "Settings")}
-          {renderSidebarLink("/notifications", "notifications", "Notifications")}
-        </nav>
-      </aside>
+        <SideBar />
+
 
       {/* Main Content */}
-      <main className="flex-1 bg-sky-80">
+      <main className="flex-1 bg-sky-80 pl-72">
         {/* Header */}
         <div className="bg-white p-6">
           <header className="flex justify-between items-center mb-6">
