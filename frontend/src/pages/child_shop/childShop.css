@@ -1,0 +1,118 @@
+/* Root container for the page */
+.child-shop-redeem {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  /* Coins display styling */
+  .coins-display {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .coins-count {
+    color: #ffd700; /* Gold color for coins */
+  }
+  
+  /* Tabs styling */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .tab.active {
+    background-color: #ff9800; /* Highlight active tab */
+    color: #fff;
+  }
+  
+  /* Shop tab item card styling */
+  .item-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .item-card h3 {
+    margin: 0 0 10px;
+  }
+  
+  .item-card button {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .item-card button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Redeem tab reward card styling */
+  .reward-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .reward-card.redeemed {
+    background-color: #d3d3d3;
+    color: #888;
+  }
+  
+  .reward-card button {
+    background-color: #2196f3;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .reward-card button:hover {
+    background-color: #1976d2;
+  }
+  
+  /* For smartphone responsiveness */
+  @media (max-width: 480px) {
+    .child-shop-redeem {
+      padding: 10px;
+    }
+  
+    .tabs {
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+  
+    .tab {
+      margin-bottom: 5px;
+    }
+  }
+  
