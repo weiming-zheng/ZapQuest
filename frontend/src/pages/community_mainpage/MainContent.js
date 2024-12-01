@@ -6,6 +6,8 @@ import PostButton from './PostButton';
 import MyPost from './MyPost';
 import Post from "./Post";
 import Modal from '../../components/Modal';
+import { forumService } from '../../services';
+
 
 function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     const [posts, setPosts] = useState([]);
@@ -13,20 +15,61 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState("add"); 
     const [modalData, setModalData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    // 从后端获取帖子数据
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await axios.get(`/forum/parent/all-threads`);
-                setPosts(response.data); // 假设后端返回的帖子数据格式符合预期
-            } catch (error) {
-                console.error("Error fetching posts", error);
+
+    const fetchPosts = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            
+            console.log('开始获取帖子...');
+            const result = await forumService.getAllThreads();
+            console.log('获取到的结果:', result);
+    
+            // 此时 result 应该直接是 { code, msg, data } 结构
+            if (!result || typeof result !== 'object') {
+                throw new Error('响应格式错误');
             }
-        };
+    
+            const { code, data } = result;
+            console.log('解析结果:', { code, data });
+    
+            if (code !== 1 || !Array.isArray(data)) {
+                throw new Error('数据格式不正确');
+            }
+    
+            const formattedPosts = data.map(post => ({
+                ...post,
+                createdAt: formatDate(post.createdAt)
+            }));
+    
+            console.log('格式化后的帖子:', formattedPosts);
+            setPosts(formattedPosts);
+        } catch (err) {
+            console.error('获取帖子错误:', err);
+            setError(err.message || '获取帖子失败，请稍后再试');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    // 分离日期格式化函数
+    const formatDate = (dateArray) => {
+        if (!Array.isArray(dateArray)) return '';
+        
+        return `${dateArray[0]}-${String(dateArray[1]).padStart(2, '0')}-${String(dateArray[2]).padStart(2, '0')} ${String(dateArray[3]).padStart(2, '0')}:${String(dateArray[4]).padStart(2, '0')}:${String(dateArray[5]).padStart(2, '0')}`;
+    };
 
+    useEffect(() => {
+        // 开发测试用的token
+        if (!localStorage.getItem('token')) {
+            localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwYXJlbnRJZCI6MSwiZXhwIjoxNzMzMzQyMzQ5fQ.kpPh6eW0dBgu47VcS6d28lgMglaDTsGlaoKRgRYlf74');
+        }
         fetchPosts();
-    }, []);
+    }, [isMyPost]);
+
 
     const getPostsToDisplay = () => (isMyPost ? posts.filter(post => post.isMyPost) : posts);
 
@@ -100,41 +143,51 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
 
     return (
         <div className="maincontent">
-            <div className="top-section">
-                <select
-                    className="sort-dropdown"
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                >
-                    <option value="mostRecent">Most Recent</option>
-                    <option value="mostLikes">Most Likes</option>
-                </select>
-                <div className="search-post-container">
-                    <SearchBar />
-                    <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
-                    <PostButton onClick={handleAddPost}/>
-                </div>
-            </div>
-            {postsToDisplay.map((post, index) => (
-                <Post
-                    key={index}
-                    postId={post.id}
-                    title={post.title}
-                    content={post.content}
-                    like={post.like}
-                    hasLiked={post.hasLiked}
-                    createdAt={post.createdAt}
-                    onEdit={() => handleEditPost(post)}
-                    onDelete={() => handleDeletePost(post)}
-                />
-            ))}
-            <Modal
-                isVisible={isModalVisible}
-                onClose={handleCloseModal}
-                onSubmit={handleSubmit}
-                mode={modalMode}
-                postData={modalData}
-            />
+            {loading ? (
+                <div className="loading">加载中...</div>
+            ) : error ? (
+                <div className="error">{error}</div>
+            ) : (
+                <>
+                    <div className="top-section">
+                        <select
+                            className="sort-dropdown"
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                        >
+                            <option value="mostRecent">最新</option>
+                            <option value="mostLikes">最多点赞</option>
+                        </select>
+                        <div className="search-post-container">
+                            <SearchBar />
+                            <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
+                            <PostButton onClick={() => setIsModalVisible(true)} />
+                        </div>
+                    </div>
+
+                    {posts.map((post) => (
+                        <Post
+                            key={post.id}
+                            postId={post.id}
+                            title={post.title}
+                            content={post.content}
+                            like={post.like}
+                            hasLiked={post.hasLiked}
+                            createdAt={post.createdAt}
+                            onEdit={() => handleEditPost(post)}
+                            onDelete={() => handleDeletePost(post)}
+                        />
+                    ))}
+
+                    <Modal
+                        isVisible={isModalVisible}
+                        onClose={() => setIsModalVisible(false)}
+                        onSubmit={handleSubmit}
+                        mode={modalMode}
+                        postData={modalData}
+                    />
+                </>
+            )}
         </div>
     );
 }
