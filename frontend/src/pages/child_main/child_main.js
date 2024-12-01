@@ -1,15 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import taskEntrance from "../../assets/taskEntrance.png";
 import shopEntrance from "../../assets/shopEntrance.png";
+import axios from 'axios';
 import "./child_main.css"
 import Drawer from "./drawer.js";
 
 const Child_main = () => {
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const username ="Haru";
-const userid ="123";
+  const [name, setName] = useState('');
+  const [token, setToken] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const loginCode = "RYGXXX76ZA";
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!loginCode) {
+        setError('No login code found');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios({
+          method: 'post',
+          url: '/api/v1/auth/child/login',
+          data: { loginCode },  // 按照接口文档的格式发送数据
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        // 处理返回数据
+        if (response.data.code === 1) {  // 成功状态码为 1
+          const { name, token } = response.data.data;
+          setName(name);
+          setToken(token);
+          // 可以选择将 token 存储起来
+          sessionStorage.setItem('token', token);
+        } else {
+          throw new Error(response.data.msg);
+        }
+        setIsLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.msg || err.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [loginCode]);
+
+  if (isLoading) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex h-screen items-center justify-center text-red-500">{error}</div>;
+  }
 
   
 
@@ -20,8 +70,7 @@ const userid ="123";
       <Drawer 
       isOpen={isDrawerOpen} 
       onClose={() => setIsDrawerOpen(false)} 
-      userid={userid}
-      username={username}
+      username={name}
       />
       {/* Header */}
       <header className="p-4 flex items-center justify-between bg-white">

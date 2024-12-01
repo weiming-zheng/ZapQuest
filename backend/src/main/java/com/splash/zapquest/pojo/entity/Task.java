@@ -2,10 +2,7 @@ package com.splash.zapquest.pojo.entity;
 
 import com.splash.zapquest.common.enumeration.TaskStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -42,5 +39,6 @@ public class Task extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private TaskStatus status = TaskStatus.INCOMPLETE;
 }

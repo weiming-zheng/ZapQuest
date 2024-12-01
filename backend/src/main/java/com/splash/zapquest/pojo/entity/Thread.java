@@ -2,10 +2,7 @@ package com.splash.zapquest.pojo.entity;
 
 import com.splash.zapquest.common.enumeration.TaskStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -40,9 +37,11 @@ public class Thread extends BaseEntity {
             joinColumns = @JoinColumn(name = "thread_id"),
             inverseJoinColumns = @JoinColumn(name = "parent_id")
     )
+    @Builder.Default
     private Set<Parent> likers = new HashSet<>();
 
     // One-to-Many relationship with Comment
     @OneToMany(mappedBy = "thread", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Comment> comments = new HashSet<>();
 }

@@ -27,5 +27,6 @@ public class Parent extends BaseEntity {
   private Child child;
 
   @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+  @Builder.Default
   private Set<ShopItem> shopItems = new HashSet<>();
 }

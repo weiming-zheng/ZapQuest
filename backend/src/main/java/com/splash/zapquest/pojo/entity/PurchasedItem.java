@@ -26,5 +26,6 @@ public class PurchasedItem extends BaseEntity {
     private String iconId;
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean isRedeemed = false;
 }
