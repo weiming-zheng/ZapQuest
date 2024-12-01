@@ -8,7 +8,7 @@
     display: flex; /* 使用 flexbox 来水平排列标签 */
     align-items: center; /* 垂直居中对齐 */
     margin-top: 10px;
-    height: 50px;
+    height: 60px;
     background-color: white; /* 设置背景色 */
     padding: 10px;
     text-align: center;
@@ -63,6 +63,13 @@
     background-color: white;
     color: gray;
     border: 1px solid gray;
+    height: 30px;
+    font-size: 16px;
     cursor: not-allowed; /* 禁止鼠标点击的效果 */
+
+      /* 垂直水平居中 */
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
   }
   

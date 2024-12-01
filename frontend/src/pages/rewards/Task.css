@@ -7,7 +7,7 @@
 .item{
     display: flex; /* 使用 flexbox 来水平排列标签 */
     align-items: center; /* 垂直居中对齐 */
-    height: 50px;
+    height: 60px;
     background-color: white; /* 设置背景色 */
     padding: 10px;
     text-align: center;
