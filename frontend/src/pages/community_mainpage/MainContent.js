@@ -18,7 +18,7 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`/api/posts`);
+                const response = await axios.get(`/forum/parent/all-threads`);
                 setPosts(response.data); // 假设后端返回的帖子数据格式符合预期
             } catch (error) {
                 console.error("Error fetching posts", error);
