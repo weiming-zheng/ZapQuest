@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -32,4 +33,16 @@ public class Child extends BaseEntity {
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<PurchasedItem> purchasedItems = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Child child)) return false;
+        return getId() != null && Objects.equals(getId(), child.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

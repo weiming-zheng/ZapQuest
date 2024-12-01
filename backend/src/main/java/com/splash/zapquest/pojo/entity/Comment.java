@@ -17,9 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "comment")
 public class Comment extends BaseEntity {
-    @Column(nullable = false)
-    private String name;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
     private Parent creator;

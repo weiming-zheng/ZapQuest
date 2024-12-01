@@ -182,14 +182,12 @@ public class DataInitializer {
         threadRepository.saveAll(Arrays.asList(thread1, thread2));
 
         Comment comment1 = Comment.builder()
-                .name("Reading Tips")
                 .content("We use a reward chart system that works great!")
                 .creator(parents.get(1))
                 .thread(thread1)
                 .build();
 
         Comment comment2 = Comment.builder()
-                .name("Math App Suggestion")
                 .content("We've had success with Khan Academy Kids")
                 .creator(parents.get(0))
                 .thread(thread2)

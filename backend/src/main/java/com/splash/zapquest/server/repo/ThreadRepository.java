@@ -20,4 +20,10 @@ public interface ThreadRepository extends JpaRepository<Thread, Long> {
     @Query("SELECT t FROM Thread t LEFT JOIN FETCH t.likers LEFT JOIN FETCH t.comments " +
             "WHERE t.id = :id")
     Thread findByIdWithLikersAndComments(Long id);
+
+    @Query("SELECT DISTINCT t FROM Thread t " +
+            "LEFT JOIN FETCH t.likers " +
+            "LEFT JOIN FETCH t.comments " +
+            "WHERE t.isDeleted = false")
+    List<Thread> findAllWithLikersAndComments();
 }

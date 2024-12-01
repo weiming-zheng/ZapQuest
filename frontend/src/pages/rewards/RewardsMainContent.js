@@ -15,7 +15,6 @@ function RewardsMainContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  //loading shop items
   const loadShopItems = async () => {
     try {
       setIsLoading(true);
@@ -62,9 +61,9 @@ function RewardsMainContent() {
     }
   };
 
-  // loading data
+  // 初始加载数据
   useEffect(() => {
-    // hard code: token,need to be modified
+    // 开发阶段：设置测试 token
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwYXJlbnRJZCI6MSwiZXhwIjoxNzMzMjc0OTMwfQ.9_Xqt64pJOmnh_KMSzbB_kH2si4M6M2EersMqtdFMPg');
 
     if (activeTab === "shop") {
@@ -84,7 +83,7 @@ function RewardsMainContent() {
     setModalMode("edit");
     setModalData({
       id: item.id,
-      name: item.name,  
+      name: item.name,  // 确保字段名称匹配
       price: item.price,
       iconId: item.iconId
     });
@@ -224,7 +223,7 @@ function RewardsMainContent() {
                             title={item.name} 
                             price={item.price}
                             isRedeemed={item.isRedeemed}
-                            onRedeem={() => handleRedeem(item.id)} 
+                            onRedeem={() => handleRedeem(item.id)}
                         />
                     ))
                 )}

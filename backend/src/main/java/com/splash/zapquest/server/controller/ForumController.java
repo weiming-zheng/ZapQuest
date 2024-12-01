@@ -20,10 +20,10 @@ public class ForumController {
     private final ForumService forumService;
 
     @GetMapping("/all-threads")
-    public Result<List<ThreadPreviewDto>> getAllThreads() {
+    public Result<List<ThreadDto>> getAllThreads() {
         String userType = BaseContext.getCurrentUser().type();
         Long userId = BaseContext.getCurrentUser().id();
-        List<ThreadPreviewDto> threads = forumService.getAllThreads(userType, userId);
+        List<ThreadDto> threads = forumService.getAllThreads(userType, userId);
         return Result.success(threads);
     }
 

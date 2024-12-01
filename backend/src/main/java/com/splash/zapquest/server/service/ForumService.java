@@ -14,6 +14,7 @@ import com.splash.zapquest.server.repo.CommentRepository;
 import com.splash.zapquest.server.repo.ParentRepository;
 import com.splash.zapquest.server.repo.ThreadRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ForumService {
@@ -34,10 +36,10 @@ public class ForumService {
         }
     }
 
-    public List<ThreadPreviewDto> getAllThreads(String userType, Long userId) {
+    public List<ThreadDto> getAllThreads(String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAllWithLikers().stream()
-                .map(thread -> convertToThreadPreviewDto(thread, userId))
+        return threadRepository.findAllWithLikersAndComments().stream()
+                .map(thread -> convertToThreadDto(thread, userId))
                 .collect(Collectors.toList());
     }
 
@@ -76,6 +78,9 @@ public class ForumService {
 
         Parent parent = parentRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Parent not found"));
+
+        // Add debugging
+//        log.info("Parent ID after fetch: {}", parent.getId());
 
         if (like) {
             thread.getLikers().add(parent);

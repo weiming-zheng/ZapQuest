@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import lombok.experimental.SuperBuilder;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @SuperBuilder
@@ -29,4 +30,17 @@ public class Parent extends BaseEntity {
   @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
   @Builder.Default
   private Set<ShopItem> shopItems = new HashSet<>();
+
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Parent parent)) return false;
+    return getId() != null && Objects.equals(getId(), parent.getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 }
