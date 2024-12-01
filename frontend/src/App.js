@@ -13,6 +13,7 @@ import ParentTasks from './pages/tasks/ParentTasks.js';
 import Rewards_mainpage from "./pages/rewards/Rewards_mainpage.js";
 import Child_main from './pages/child_main/child_main.js';
 import Child_task from './pages/child_task/Child_task.js';
+import ChildShop from './pages/child_shop/childShop.js';
 
 
 
@@ -55,6 +56,9 @@ function App() {
 
           {/*Child task page*/}
           <Route path='/child-task' element={<Child_task />} />
+
+          {/* Child Shop and Redeem page */}
+          <Route path="/child-shop" element={<ChildShop/>} />
           
         </Routes>
       </div>

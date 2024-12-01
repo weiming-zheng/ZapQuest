@@ -1,98 +1,145 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./RewardsMainContent.css";
 import Task from "./Task";
 import AddTaskModal from "./AddTaskModal";
 import RedeemList from "./RedeemList";
+import { rewardService } from '../../services';
 
 function RewardsMainContent() {
- const [activeTab, setActiveTab] = useState("shop"); // 默认显示第一个标签
- const [modalMode, setModalMode] = useState("add"); 
- const [modalData, setModalData] = useState({});
- const [showModal, setShowModal] = useState(false);
- const [isRedeemed, setIsRedeemed] = useState(false);
+  const [activeTab, setActiveTab] = useState("shop");
+  const [modalMode, setModalMode] = useState("add");
+  const [modalData, setModalData] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [shopItems, setShopItems] = useState([]);
+  const [redeemItems, setRedeemItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
- const tasks = [
-  {title : "Ice cream with mom" ,price : "10" },
-  {title : "Disneyland Travel" ,price : "2000"}
-  ];
-
-  const [redeemlist, setRedeemlist] = useState([
-    { title: "Ice cream with mom", price: "10", isRedeemed: false },
-    { title: "Disneyland Travel", price: "2000", isRedeemed: false },
-  ]);
-
-// 处理点击事件，显示弹窗
-  const handleAddPost = () => {
-      setModalMode("add"); // 设置模式为 add
-      setModalData({});
-      setShowModal(true); // 显示模态框
-  };
-
-  const handleEditPost = (tasks) => {
-      setModalMode("edit");
-      setModalData(tasks); 
-      setShowModal(true);
-  };
-
-  const handleDeletePost = (tasks) => {
-      setModalMode("delete");
-      setModalData(tasks); 
-      setShowModal(true);
-  };
-
-  const handleRedeem = (index) => {
-    // 使用不可变数据更新方法
-    setRedeemlist((prevList) =>
-      prevList.map((item, idx) =>
-        idx === index ? { ...item, isRedeemed: true } : item
-      )
-    );
-    console.log(`Redeem clicked for index: ${index}`);
-  };
-
-
-const getSortedPosts = (tasks) => {
-  return [...tasks].sort((a, b) => {
-      const firstLetterA = a.title[0].toLowerCase();
-      const firstLetterB = b.title[0].toLowerCase();
+  const loadShopItems = async () => {
+    try {
+      setIsLoading(true);
+      setError("");
+      const token = localStorage.getItem('token');
       
-      if (firstLetterA < firstLetterB) {
-          return -1;  // a 排在 b 前
+      if (!token) {
+        setError("Please login first");
+        return;
       }
-      if (firstLetterA > firstLetterB) {
-          return 1;  // b 排在 a 前
+
+      const items = await rewardService.getShopItems('parent');
+      if (Array.isArray(items)) {
+        setShopItems(items);
+      } else {
+        setShopItems([]);
+        console.warn('Received non-array data:', items);
       }
-      return 0;  // a 和 b 相等，不变
-  });
-};
+    } catch (err) {
+      setError(err.message || "Failed to load shop items");
+      console.error('Load shop items error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const loadRedeemItems = async () => {
+    try {
+      setIsLoading(true);
+      setError("");
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setError("Please login first");
+        return;
+      }
 
-  redeemlist.sort((a, b) => {
-    if (a.isRedeemed === b.isRedeemed) return 0; // 如果值相同，不改变顺序
-    return b.isRedeemed ? -1 : 1; // true 在前，false 在后
-  });
+      const items = await rewardService.getPurchasedItems('parent');
+      if (Array.isArray(items)) {
+        setRedeemItems(items);
+      } else {
+        setRedeemItems([]);
+        console.warn('Received non-array data:', items);
+      }
+    } catch (err) {
+      setError(err.message || "Failed to load redeem items");
+      console.error('Load redeem items error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-// 获取排序后的帖子
-const sortedTasks = getSortedPosts(tasks);
+  // 初始加载数据
+  useEffect(() => {
+    // 开发阶段：设置测试 token
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwYXJlbnRJZCI6MSwiZXhwIjoxNzMzMjc0OTMwfQ.9_Xqt64pJOmnh_KMSzbB_kH2si4M6M2EersMqtdFMPg');
 
-// 处理关闭弹窗
-const handleClose = () => {
-  console.log("Modal close triggered");
-  setShowModal(false);
+    if (activeTab === "shop") {
+      loadShopItems();
+    } else {
+      loadRedeemItems();
+    }
+  }, [activeTab]);
 
-};
+  const handleAddPost = () => {
+    setModalMode("add");
+    setModalData({});
+    setShowModal(true);
+  };
 
+  const handleEditPost = (item) => {
+    setModalMode("edit");
+    setModalData(item);
+    setShowModal(true);
+  };
+
+  const handleDeletePost = (item) => {
+    setModalMode("delete");
+    setModalData(item);
+    setShowModal(true);
+  };
+
+  const handleRedeem = async (purchasedItemId) => {
+    try {
+      setError("");
+      await rewardService.redeemItem('parent', purchasedItemId);
+      // 重新加载赎回列表以更新状态
+      await loadRedeemItems();
+    } catch (err) {
+      setError(err.message || "Failed to redeem item");
+      console.error('Redeem error:', err);
+    }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    setModalData({});
+    setError("");
+  };
+
+  const handleModalSuccess = async () => {
+    await loadShopItems();
+    handleModalClose();
+  };
+
+  // 对redeemItems按照是否已赎回状态进行排序
+  const getSortedRedeemItems = () => {
+    return [...redeemItems].sort((a, b) => {
+      // 未赎回的排在前面
+      if (a.isRedeemed === b.isRedeemed) {
+        return 0;
+      }
+      return a.isRedeemed ? 1 : -1;
+    });
+  };
 
   return (
-    <div className="rewardsmaincontent ">
-      {/* 标签按钮 */}
-      <div className ="button">
+    <div className="rewardsmaincontent">
+      <div className="button">
         <button 
           style={{
             flex: 1,
             padding: "10px",
             border: "none",
-            fontSize :"20px",
+            fontSize: "20px",
             borderBottom: activeTab === "shop" ? "2px solid blue" : "none",
             background: "transparent",
             fontWeight: activeTab === "shop" ? "bold" : "normal",
@@ -106,7 +153,7 @@ const handleClose = () => {
             flex: 1,
             padding: "10px",
             border: "none",
-            fontSize :"20px",
+            fontSize: "20px",
             borderBottom: activeTab === "redeem" ? "2px solid blue" : "none",
             background: "transparent",
             fontWeight: activeTab === "redeem" ? "bold" : "normal",
@@ -116,58 +163,76 @@ const handleClose = () => {
           Redeem
         </button>
       </div>
-    
 
-      {/* 内容显示区域 */}
+      {error && (
+        <div className="error-message" style={{ color: 'red', margin: '10px' }}>
+          {error}
+        </div>
+      )}
+
       <div style={{ marginTop: "30px" }}>
         {activeTab === "shop" && (
           <div style={{ marginTop: "40px" }}>
-            {sortedTasks.map((tasks, index) => (
-                <Task
-                    key={index}
-                    title={tasks.title}
-                    price={tasks.price}
-                    onEdit={() => handleEditPost(tasks)}
-                    onDelete={() => handleDeletePost(tasks)}
-                />
-            ))}
-            <div className="addTask" onClick={handleAddPost}>
-              <p style={{
-                color : "#70AEFF",
-                fontSize :"36px",
-                marginLeft:"20px",
-                marginRight:"20px",
-                }}>+</p>
-              <p  style={{
-                color : "#1859FF",
-                fontSize :"16px",
-                fontWeight:"bold",
-                marginRight:"20px",
-                }}>ADD REWARD</p>
-                
-              </div>
+            {isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <>
+                {shopItems.map((item) => (
+                  <Task
+                    key={item.id}
+                    id={item.id}
+                    iconId={item.iconId}
+                    title={item.name}
+                    price={item.price}
+                    onEdit={() => handleEditPost(item)}
+                    onDelete={() => handleDeletePost(item)}
+                  />
+                ))}
+                <div className="addTask" onClick={handleAddPost}>
+                  <p style={{
+                    color: "#70AEFF",
+                    fontSize: "36px",
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                  }}>+</p>
+                  <p style={{
+                    color: "#1859FF",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    marginRight: "20px",
+                  }}>ADD REWARD</p>
+                </div>
+              </>
+            )}
           </div>
         )}
+        
         {activeTab === "redeem" && (
           <div style={{ marginTop: "40px" }}>
-            {redeemlist.map((redeemlist, index) => (
+            {isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              getSortedRedeemItems().map((item) => (
                 <RedeemList
-                    key={index}
-                    title={redeemlist.title}
-                    price={redeemlist.price}
-                    isRedeemed={redeemlist.isRedeemed}
-                    onRedeem={() => handleRedeem(index)}
+                  key={item.id}
+                  title={item.name}
+                  price={item.price}
+                  isRedeemed={item.isRedeemed}
+                  onRedeem={() => handleRedeem(item.id)}
                 />
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>
+
       <AddTaskModal 
         isOpen={showModal} 
-        onClose={handleClose}
+        onClose={handleModalClose}
         mode={modalMode}
         postData={modalData}
-        />
+        onSuccess={handleModalSuccess}
+      />
     </div>
   );
 }
