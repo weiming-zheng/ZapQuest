@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ZapquestApplication<zapquest>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.splash.zapquest.ZapquestApplication",
+            "projectName": "zapquest",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

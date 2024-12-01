@@ -21,7 +21,7 @@ const MenuIcon = () => (
 );
 
 
-const Drawer = ({ isOpen, onClose ,username,userid}) => {
+const Drawer = ({ isOpen, onClose ,username}) => {
   return (
     <>
       {/* Backdrop */}
@@ -68,7 +68,6 @@ const Drawer = ({ isOpen, onClose ,username,userid}) => {
                                 />
                             </div>
                             <h2 className="text-xl font-bold">{username}</h2>
-                            <p className="text-gray-500">user id : {userid}</p>
                         </div>
                         <button
                         className="logout_button"
