@@ -15,13 +15,17 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
 
   useEffect(() => {
     if (mode === "edit" && postData) {
-        setTitle(postData.title);
-        setPrice(postData.price);
+      // 从 postData 中读取当前项目的数据
+      setTitle(postData.name || "");  // 注意这里应该是 name 而不是 title
+      setPrice(postData.price?.toString() || ""); // 转换为字符串并处理可能的 undefined
+      setAvatar(postData.iconId || "🍦"); // 使用已有的图标或默认图标
     } else {
-        setTitle("");
-        setPrice("");
+      // 新建模式下重置为默认值
+      setTitle("");
+      setPrice("");
+      setAvatar("🍦");
     }
-}, [mode, postData]);
+  }, [mode, postData]); // 依赖项包括 mode 和 postData
 
   const handleEmojiSelect = (emoji) => {
     setAvatar(emoji.emoji); // set the outcome as the user's choice
@@ -33,25 +37,30 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
       setError("Please fill in all fields");
       return;
     }
-
+  
     setIsSubmitting(true);
     setError("");
-
+  
     try {
       const itemData = {
         name: title,
         price: parseInt(price),
         iconId: avatar
       };
-
+  
+      let response;
       if (mode === "edit" && postData?.id) {
-        await rewardService.updateShopItem(postData.id, itemData);
+        // 编辑现有项目
+        response = await rewardService.updateShopItem(postData.id, itemData);
+      } else {
+        // 创建新项目
+        response = await rewardService.createShopItem(itemData);
       }
       
       onSuccess?.();
       onClose();
     } catch (err) {
-      setError(err.message || "Failed to save reward");
+      setError(err.message || `Failed to ${mode === "edit" ? "update" : "create"} reward`);
     } finally {
       setIsSubmitting(false);
     }

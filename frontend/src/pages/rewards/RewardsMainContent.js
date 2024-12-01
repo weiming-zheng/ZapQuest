@@ -41,29 +41,23 @@ function RewardsMainContent() {
     }
   };
 
+  // loading the items been purchased
   const loadRedeemItems = async () => {
     try {
-      setIsLoading(true);
-      setError("");
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        setError("Please login first");
-        return;
-      }
-
-      const items = await rewardService.getPurchasedItems('parent');
-      if (Array.isArray(items)) {
-        setRedeemItems(items);
-      } else {
-        setRedeemItems([]);
-        console.warn('Received non-array data:', items);
-      }
+        setIsLoading(true);
+        setError("");
+        const items = await rewardService.getPurchasedItems('parent');
+        if (Array.isArray(items)) {
+            setRedeemItems(items);
+        } else {
+            setRedeemItems([]);
+            console.warn('Received non-array data:', items);
+        }
     } catch (err) {
-      setError(err.message || "Failed to load redeem items");
-      console.error('Load redeem items error:', err);
+        setError(err.message || "Failed to load purchased items");
+        console.error('Load purchased items error:', err);
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 
@@ -87,7 +81,12 @@ function RewardsMainContent() {
 
   const handleEditPost = (item) => {
     setModalMode("edit");
-    setModalData(item);
+    setModalData({
+      id: item.id,
+      name: item.name,  // 确保字段名称匹配
+      price: item.price,
+      iconId: item.iconId
+    });
     setShowModal(true);
   };
 
@@ -97,16 +96,20 @@ function RewardsMainContent() {
     setShowModal(true);
   };
 
-  const handleRedeem = async (purchasedItemId) => {
-    try {
-      setError("");
-      await rewardService.redeemItem('parent', purchasedItemId);
-      // 重新加载赎回列表以更新状态
-      await loadRedeemItems();
-    } catch (err) {
-      setError(err.message || "Failed to redeem item");
-      console.error('Redeem error:', err);
-    }
+
+    // manage redeem status
+    const handleRedeem = async (purchasedItemId) => {
+      try {
+          setIsLoading(true);
+          setError("");
+          await rewardService.redeemItem('parent', purchasedItemId);
+          await loadRedeemItems(); // reload the list to update
+      } catch (err) {
+          setError(err.message || "Failed to redeem item");
+          console.error('Redeem error:', err);
+      } finally {
+          setIsLoading(false);
+      }
   };
 
   const handleModalClose = () => {
@@ -208,21 +211,23 @@ function RewardsMainContent() {
         )}
         
         {activeTab === "redeem" && (
-          <div style={{ marginTop: "40px" }}>
-            {isLoading ? (
-              <div>Loading...</div>
-            ) : (
-              getSortedRedeemItems().map((item) => (
-                <RedeemList
-                  key={item.id}
-                  title={item.name}
-                  price={item.price}
-                  isRedeemed={item.isRedeemed}
-                  onRedeem={() => handleRedeem(item.id)}
-                />
-              ))
-            )}
-          </div>
+            <div style={{ marginTop: "40px" }}>
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    redeemItems.map((item) => (
+                        <RedeemList
+                            key={item.id}
+                            id={item.id}
+                            iconId={item.iconId}
+                            title={item.name} 
+                            price={item.price}
+                            isRedeemed={item.isRedeemed}
+                            onRedeem={() => handleRedeem(item.id)}
+                        />
+                    ))
+                )}
+            </div>
         )}
       </div>
 

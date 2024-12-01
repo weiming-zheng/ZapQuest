@@ -75,5 +75,27 @@ export const rewardService = {
     } catch (error) {
       throw error;
     }
+  },
+
+  // 获取已购买物品列表
+  getPurchasedItems: async (userType) => {
+    try {
+      const response = await api.get(`/reward/${userType}/redeem`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+
+  },
+
+  // 赎回物品
+  redeemItem: async (userType, purchasedItemId) => {
+      try {
+        const response = await api.patch(`/reward/${userType}/redeem/${purchasedItemId}`);
+        return response;
+      } catch (error) {
+        throw error;
+      }
   }
+
 };

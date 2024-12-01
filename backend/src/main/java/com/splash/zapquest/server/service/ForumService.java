@@ -36,25 +36,21 @@ public class ForumService {
 
     public List<ThreadPreviewDto> getAllThreads(String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAll().stream()
-                .filter(thread -> !thread.getIsDeleted())
+        return threadRepository.findAllWithLikers().stream()
                 .map(thread -> convertToThreadPreviewDto(thread, userId))
                 .collect(Collectors.toList());
     }
 
     public List<ThreadPreviewDto> getMyThreads(String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAll().stream()
-                .filter(thread -> !thread.getIsDeleted() && thread.getCreator().getId().equals(userId))
+        return threadRepository.findAllByCreatorIdWithLikers(userId).stream()
                 .map(thread -> convertToThreadPreviewDto(thread, userId))
                 .collect(Collectors.toList());
     }
 
     public List<ThreadPreviewDto> getSearchedThreads(String keyword, String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAll().stream()
-                .filter(thread -> !thread.getIsDeleted()
-                        && thread.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+        return threadRepository.findAllByTitleContainingWithLikers(keyword).stream()
                 .map(thread -> convertToThreadPreviewDto(thread, userId))
                 .collect(Collectors.toList());
     }
@@ -72,12 +68,11 @@ public class ForumService {
         thread.setIsDeleted(true);
         threadRepository.save(thread);
     }
-
     @Transactional
     public Integer setLike(Long threadId, Boolean like, String userType, Long userId) {
         validateParentAccess(userType);
-        Thread thread = threadRepository.findById(threadId)
-                .orElseThrow(() -> new RuntimeException("Thread not found"));
+        Thread thread = threadRepository.findByIdWithLikersAndComments(threadId);
+//                .(() -> new RuntimeException("Thread not found"));
 
         Parent parent = parentRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Parent not found"));
