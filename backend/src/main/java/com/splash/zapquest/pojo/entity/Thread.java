@@ -17,9 +17,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "thread")
 public class Thread extends BaseEntity {
-    @Column(nullable = false)
-    private String name;
-
+//    @Column(nullable = false)
+//    private String name;
+//
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
     private Parent creator;
