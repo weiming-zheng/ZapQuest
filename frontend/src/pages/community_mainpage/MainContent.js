@@ -6,6 +6,7 @@ import PostButton from './PostButton';
 import MyPost from './MyPost';
 import Post from "./Post";
 import Modal from '../../components/Modal';
+import { forumService } from '../../services';
 
 function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     const [posts, setPosts] = useState([]);
@@ -13,20 +14,35 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState("add"); 
     const [modalData, setModalData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    // 从后端获取帖子数据
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await axios.get(`/forum/parent/all-threads`);
-                setPosts(response.data); // 假设后端返回的帖子数据格式符合预期
-            } catch (error) {
-                console.error("Error fetching posts", error);
+    // 获取帖子数据
+    const fetchPosts = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            // 根据isMyPost决定获取全部帖子还是我的帖子
+            const response = isMyPost 
+                ? await forumService.getMyThreads()
+                : await forumService.getAllThreads();
+            
+            if (response && response.data && response.data.code === 1) {
+                setPosts(response.data.data || []);
+            } else {
+                throw new Error('获取数据失败');
             }
-        };
+        } catch (err) {
+            console.error("获取帖子错误:", err);
+            setError('获取帖子失败，请稍后再试');
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [isMyPost]);
 
     const getPostsToDisplay = () => (isMyPost ? posts.filter(post => post.isMyPost) : posts);
 
@@ -97,44 +113,53 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
     };
 
     const postsToDisplay = getSortedPosts(getPostsToDisplay());
-
     return (
         <div className="maincontent">
-            <div className="top-section">
-                <select
-                    className="sort-dropdown"
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                >
-                    <option value="mostRecent">Most Recent</option>
-                    <option value="mostLikes">Most Likes</option>
-                </select>
-                <div className="search-post-container">
-                    <SearchBar />
-                    <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
-                    <PostButton onClick={handleAddPost}/>
-                </div>
-            </div>
-            {postsToDisplay.map((post, index) => (
-                <Post
-                    key={index}
-                    postId={post.id}
-                    title={post.title}
-                    content={post.content}
-                    like={post.like}
-                    hasLiked={post.hasLiked}
-                    createdAt={post.createdAt}
-                    onEdit={() => handleEditPost(post)}
-                    onDelete={() => handleDeletePost(post)}
-                />
-            ))}
-            <Modal
-                isVisible={isModalVisible}
-                onClose={handleCloseModal}
-                onSubmit={handleSubmit}
-                mode={modalMode}
-                postData={modalData}
-            />
+            {loading ? (
+                <div className="loading">加载中...</div>
+            ) : error ? (
+                <div className="error">{error}</div>
+            ) : (
+                <>
+                    <div className="top-section">
+                        <select
+                            className="sort-dropdown"
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                        >
+                            <option value="mostRecent">最新</option>
+                            <option value="mostLikes">最多点赞</option>
+                        </select>
+                        <div className="search-post-container">
+                            <SearchBar />
+                            <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
+                            <PostButton onClick={() => setIsModalVisible(true)} />
+                        </div>
+                    </div>
+
+                    {posts.map((post) => (
+                        <Post
+                            key={post.id}
+                            postId={post.id}
+                            title={post.title}
+                            content={post.content}
+                            like={post.like}
+                            hasLiked={post.hasLiked}
+                            createdAt={post.createdAt}
+                            onEdit={() => handleEditPost(post)}
+                            onDelete={() => handleDeletePost(post)}
+                        />
+                    ))}
+
+                    <Modal
+                        isVisible={isModalVisible}
+                        onClose={() => setIsModalVisible(false)}
+                        onSubmit={handleSubmit}
+                        mode={modalMode}
+                        postData={modalData}
+                    />
+                </>
+            )}
         </div>
     );
 }
