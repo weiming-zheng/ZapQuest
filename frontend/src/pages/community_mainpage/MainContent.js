@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import './MainContent.css';
-import axios from 'axios';
 import SearchBar from '../../components/SearchBar';
 import PostButton from './PostButton';
 import MyPost from './MyPost';
@@ -8,111 +7,177 @@ import Post from "./Post";
 import Modal from '../../components/Modal';
 import { forumService } from '../../services';
 
-function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
-    const [posts, setPosts] = useState([]);
-    const [sortOrder, setSortOrder] = useState("mostRecent");
+function MainContent() {
+    const [allPosts, setAllPosts] = useState([]); // 存储所有帖子
+    const [myPosts, setMyPosts] = useState([]);  // 存储我的帖子
+    const [isMyPost, setIsMyPost] = useState(false); // 当前是否为我的帖子视图
+    const [sortOrder, setSortOrder] = useState("mostRecent"); // 排序方式
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalMode, setModalMode] = useState("add"); 
+    const [modalMode, setModalMode] = useState("add");
     const [modalData, setModalData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // 获取帖子数据
-    const fetchPosts = async () => {
+    // 格式化日期
+    const formatDate = (dateArray) => {
+        const [year, month, day, hour, minute, second] = dateArray;
+        return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}:${second < 10 ? `0${second}` : second}`;
+    };
+
+    // 初始化“所有帖子”和“我的帖子”
+    const initializePosts = async () => {
+        setLoading(true);
+        setError(null);
+
         try {
-            setLoading(true);
-            setError(null);
-            // 根据isMyPost决定获取全部帖子还是我的帖子
-            const response = isMyPost 
-                ? await forumService.getMyThreads()
-                : await forumService.getAllThreads();
-            
-            if (response && response.data && response.data.code === 1) {
-                setPosts(response.data.data || []);
-            } else {
-                throw new Error('获取数据失败');
-            }
-        } catch (err) {
-            console.error("获取帖子错误:", err);
-            setError('获取帖子失败，请稍后再试');
+            const [allThreads, myThreads] = await Promise.all([
+                forumService.getAllThreads(),
+                forumService.getMyThreads()
+            ]);
+
+            setAllPosts(allThreads);
+            setMyPosts(myThreads);
+        } catch (error) {
+            console.error("初始化帖子失败:", error);
+            setError("帖子加载失败，请稍后再试");
         } finally {
             setLoading(false);
         }
     };
 
+    // 在组件加载时调用
     useEffect(() => {
-        fetchPosts();
-    }, [isMyPost]);
+        initializePosts();
+    }, []);
 
-    const getPostsToDisplay = () => (isMyPost ? posts.filter(post => post.isMyPost) : posts);
+    // 过滤当前视图的帖子
+    const postsToDisplay = isMyPost ? myPosts : allPosts;
 
-    const handleAddPost = () => {
-        setModalMode("add"); 
-        setModalData({});
-        setIsModalVisible(true); 
-    };
-
-    const handleEditPost = (post) => {
-        setModalMode("edit");
-        setModalData(post); 
-        setIsModalVisible(true);
-    };
-
-    const handleDeletePost = (post) => {
-        setModalMode("delete");
-        setModalData(post); 
-        setIsModalVisible(true);
-    };
-
-    const handleSubmit = async (data) => {
-        if (modalMode === "edit") {
-            try {
-                const response = await axios.put(`/api/posts/${modalData.id}`, data);
-                if (response.data.success) {
-                    // 更新帖子列表
-                    setPosts(posts.map(post => (post.id === data.id ? response.data.updatedPost : post)));
-                }
-            } catch (error) {
-                console.error("Error editing post", error);
-            }
-        } else if (modalMode === "delete") {
-            try {
-                const response = await axios.delete(`/api/posts/${modalData.id}`);
-                if (response.data.success) {
-                    // 从帖子列表中移除被删除的帖子
-                    setPosts(posts.filter(post => post.id !== data.id));
-                }
-            } catch (error) {
-                console.error("Error deleting post", error);
-            }
-        } else if (modalMode === "add") {
-            try {
-                const response = await axios.post(`/api/posts`, data);
-                if (response.data.success) {
-                    setPosts([response.data.newPost, ...posts]); // 添加新帖子
-                }
-            } catch (error) {
-                console.error("Error adding post", error);
-            }
+    // 排序帖子列表
+    const getSortedPosts = (posts) => {
+        if (!Array.isArray(posts)) {
+            console.error("Expected posts to be an array, but got", typeof posts);
+            return [];
         }
 
-        setIsModalVisible(false);
+        return [...posts].sort((a, b) => {
+            if (sortOrder === "mostLikes") {
+                return b.like - a.like; // 按点赞数排序
+            }
+            // 处理时间排序，确保 createdAt 是有效的时间格式
+            const dateA = new Date(a.createdAt).getTime();
+            const dateB = new Date(b.createdAt).getTime();
+            return dateB - dateA; // 按时间排序
+        });
     };
 
+    // 添加新帖子
+    const handleAddPost = async (data) => {
+        try {
+            const response = await forumService.createThread(data);
+
+            if (response.success) {
+                const newPost = response.data;
+
+                // 更新本地缓存
+                setAllPosts((prevAllPosts) => [newPost, ...prevAllPosts]);
+                setMyPosts((prevMyPosts) => [newPost, ...prevMyPosts]);
+            } else {
+                console.error("新增帖子失败:", response.message);
+            }
+        } catch (error) {
+            console.error("新增帖子失败:", error);
+        } finally {
+            setIsModalVisible(false);
+        }
+    };
+
+    // 编辑帖子
+    const handleEditPost = (post) => {
+        setModalMode("edit");
+        setModalData(post);
+        setIsModalVisible(true);
+    };
+
+    // 删除帖子
+    const handleDeletePost = (post) => {
+        setModalMode("delete");
+        setModalData(post);
+        setIsModalVisible(true);
+    };
+
+    // 提交数据（增加、编辑、删除帖子）
+    const handleSubmit = async (data) => {
+        try {
+            let response;
+            if (modalMode === "edit") {
+                response = await forumService.updateThread(modalData.id, data);
+                if (response.success) {
+                    const updatedPost = response.data;
+                    setAllPosts((prevAllPosts) =>
+                        prevAllPosts.map((post) =>
+                            post.id === updatedPost.id ? updatedPost : post
+                        )
+                    );
+                    setMyPosts((prevMyPosts) =>
+                        prevMyPosts.map((post) =>
+                            post.id === updatedPost.id ? updatedPost : post
+                        )
+                    );
+                }
+            } else if (modalMode === "delete") {
+                response = await forumService.deleteThread(modalData.id);
+                if (response.success) {
+                    setAllPosts((prevAllPosts) =>
+                        prevAllPosts.filter((post) => post.id !== modalData.id)
+                    );
+                    setMyPosts((prevMyPosts) =>
+                        prevMyPosts.filter((post) => post.id !== modalData.id)
+                    );
+                }
+            } else if (modalMode === "add") {
+                response = await forumService.createThread(data);
+                if (response.success) {
+                    const newPost = response.data;
+                    setAllPosts((prevAllPosts) => [newPost, ...prevAllPosts]);
+                    setMyPosts((prevMyPosts) => [newPost, ...prevMyPosts]);
+                }
+            }
+        } catch (error) {
+            console.error("提交数据失败:", error);
+        } finally {
+            setIsModalVisible(false);
+        }
+    };
+
+    // 点赞帖子
+    const handleLikePost = async (postId, currentLikeStatus) => {
+        try {
+            const response = await forumService.toggleLike(postId, !currentLikeStatus);
+
+            if (response.success) {
+                const updatedPost = response.data;
+                setAllPosts((prevAllPosts) =>
+                    prevAllPosts.map((post) =>
+                        post.id === postId ? updatedPost : post
+                    )
+                );
+                setMyPosts((prevMyPosts) =>
+                    prevMyPosts.map((post) =>
+                        post.id === postId ? updatedPost : post
+                    )
+                );
+            }
+        } catch (error) {
+            console.error("更新点赞状态失败:", error);
+        }
+    };
+
+    // 关闭模态框
     const handleCloseModal = () => {
         setIsModalVisible(false);
     };
 
-    const getSortedPosts = (posts) => {
-        return [...posts].sort((a, b) => {
-            if (sortOrder === "mostLikes") {
-                return b.like - a.like;
-            }
-            return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-    };
-
-    const postsToDisplay = getSortedPosts(getPostsToDisplay());
     return (
         <div className="maincontent">
             {loading ? (
@@ -132,12 +197,15 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
                         </select>
                         <div className="search-post-container">
                             <SearchBar />
-                            <MyPost onClick={onToggleMyPost} buttonText={buttonText} />
+                            <MyPost
+                                onClick={() => setIsMyPost(!isMyPost)}
+                                buttonText={isMyPost ? "所有帖子" : "我的帖子"}
+                            />
                             <PostButton onClick={() => setIsModalVisible(true)} />
                         </div>
                     </div>
 
-                    {posts.map((post) => (
+                    {getSortedPosts(postsToDisplay).map((post) => (
                         <Post
                             key={post.id}
                             postId={post.id}
@@ -148,12 +216,16 @@ function MainContent({ isMyPost, onToggleMyPost, buttonText }) {
                             createdAt={post.createdAt}
                             onEdit={() => handleEditPost(post)}
                             onDelete={() => handleDeletePost(post)}
+                            onLike={(postId, currentLikeStatus) =>
+                                handleLikePost(postId, currentLikeStatus)
+                            }
+                            isMyPost={isMyPost}
                         />
                     ))}
 
                     <Modal
                         isVisible={isModalVisible}
-                        onClose={() => setIsModalVisible(false)}
+                        onClose={handleCloseModal}
                         onSubmit={handleSubmit}
                         mode={modalMode}
                         postData={modalData}
