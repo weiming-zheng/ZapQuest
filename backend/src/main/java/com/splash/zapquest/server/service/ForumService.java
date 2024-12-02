@@ -41,19 +41,30 @@ public class ForumService {
         return threadRepository.findAllWithLikersAndComments().stream()
                 .map(thread -> convertToThreadDto(thread, userId))
                 .collect(Collectors.toList());
+//        return threadRepository.findAllWithLikersAndComments().stream()
+//                .map(thread -> convertToThreadDto(thread, userId))
+//                .collect(Collectors.toList());
     }
 
-    public List<ThreadPreviewDto> getMyThreads(String userType, Long userId) {
+    public List<ThreadDto> getMyThreads(String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAllByCreatorIdWithLikers(userId).stream()
-                .map(thread -> convertToThreadPreviewDto(thread, userId))
+//        return threadRepository.findAllByCreatorIdWithLikers(userId).stream()
+//                .map(thread -> convertToThreadDto(thread, userId))
+//                .collect(Collectors.toList());
+        return threadRepository.findAllWithLikersAndComments().stream()
+                .filter(thread -> thread.getCreator().getId().equals(userId))
+                .map(thread -> convertToThreadDto(thread, userId))
                 .collect(Collectors.toList());
     }
 
-    public List<ThreadPreviewDto> getSearchedThreads(String keyword, String userType, Long userId) {
+    public List<ThreadDto> getSearchedThreads(String keyword, String userType, Long userId) {
         validateParentAccess(userType);
-        return threadRepository.findAllByTitleContainingWithLikers(keyword).stream()
-                .map(thread -> convertToThreadPreviewDto(thread, userId))
+//        return threadRepository.findAllByTitleContainingWithLikers(keyword).stream()
+//                .map(thread -> convertToThreadDto(thread, userId))
+//                .collect(Collectors.toList());
+        return threadRepository.findAllWithLikersAndComments().stream()
+                .filter(thread -> thread.getTitle().contains(keyword))
+                .map(thread -> convertToThreadDto(thread, userId))
                 .collect(Collectors.toList());
     }
 

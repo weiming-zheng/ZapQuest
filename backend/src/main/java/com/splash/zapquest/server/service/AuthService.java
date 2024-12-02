@@ -10,6 +10,7 @@ import com.splash.zapquest.pojo.entity.Child;
 import com.splash.zapquest.server.repo.ChildRepository;
 import com.splash.zapquest.server.repo.ParentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import com.splash.zapquest.pojo.vo.ChildLoginVo;
 
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -51,6 +53,7 @@ public class AuthService {
 
         // Generate login code for child
         String originalLoginCode = loginCodeUtil.generateLoginCode();
+        log.info("Child Login Code: {}", originalLoginCode);
         String encryptedLoginCode = loginCodeUtil.encrypt(originalLoginCode);
 
         // Create new parent

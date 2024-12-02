@@ -28,18 +28,18 @@ public class ForumController {
     }
 
     @GetMapping("/my-threads")
-    public Result<List<ThreadPreviewDto>> getMyThreads() {
+    public Result<List<ThreadDto>> getMyThreads() {
         String userType = BaseContext.getCurrentUser().type();
         Long userId = BaseContext.getCurrentUser().id();
-        List<ThreadPreviewDto> threads = forumService.getMyThreads(userType, userId);
+        List<ThreadDto> threads = forumService.getMyThreads(userType, userId);
         return Result.success(threads);
     }
 
     @GetMapping("/search")
-    public Result<List<ThreadPreviewDto>> getSearchedThreads(@RequestParam String keyword) {
+    public Result<List<ThreadDto>> getSearchedThreads(@RequestParam String keyword) {
         String userType = BaseContext.getCurrentUser().type();
         Long userId = BaseContext.getCurrentUser().id();
-        List<ThreadPreviewDto> threads = forumService.getSearchedThreads(keyword, userType, userId);
+        List<ThreadDto> threads = forumService.getSearchedThreads(keyword, userType, userId);
         return Result.success(threads);
     }
 

@@ -121,6 +121,14 @@ public class TaskService {
         taskRepository.save(task);
     }
 
+    @Transactional
+    public Integer getChildBalance(Long userId) {
+        Child child = childRepository.findById(userId)
+                .orElseThrow(() -> new UnauthorizedOperationException("Child not found"));
+
+        return child.getCoinBalance();
+    }
+
     private void updateTaskFields(Task task, TaskChangeVo taskChangeVo) {
         if (taskChangeVo.getName() != null) {
             task.setName(taskChangeVo.getName());
