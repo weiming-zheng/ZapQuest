@@ -3,30 +3,70 @@ import { Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import taskEntrance from "../../assets/taskEntrance.png";
 import shopEntrance from "../../assets/shopEntrance.png";
+import axios from 'axios';
 import "./child_main.css"
 import Drawer from "./drawer.js";
 
 const Child_main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 检查登录状态
-    const token = localStorage.getItem('token');
-    const storedName = localStorage.getItem('childName');
-    
-    if (!token) {
-      navigate('/login');
-      return;
-    }
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        navigate('/login');
+        return;
+      }
 
-    if (storedName) {
-      setName(storedName);
-    }
+
+      try {
+        // 这里可以添加一个获取用户信息的API调用
+        // 使用存储的token来获取最新的用户数据
+        const response = await axios({
+          method: 'get',
+          url: '/api/v1/user/profile', // 假设有这个获取用户信息的端点
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.data.code === 1) {
+          setName(response.data.data.name);
+        } else {
+          throw new Error(response.data.msg);
+        }
+        setIsLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.msg || err.message);
+        setIsLoading(false);
+        // 如果是认证错误，重定向到登录页面
+        if (err.response?.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
+        }
+      }
+    };
+
+    fetchUserData();
   }, [navigate]);
 
+  if (isLoading) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex h-screen items-center justify-center text-red-500">{error}</div>;
+  }
+
+
   const MainView = () => (
+
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Drawer Component */}
       <Drawer
@@ -43,18 +83,16 @@ const Child_main = () => {
           ZapQuest
         </h1>
       </header>
-
       {/* Main Content */}
       <main className="flex-1 p-4 space-y-4">
         {/* Task Board Card */}
         <div
           className="card"
-          onClick={() => navigate('/child-tasks')} // 添加导航
+          onClick={() => console.log('Task Board clicked')}
         >
           <div className="relative">
             <img className="pic_task"
               src={taskEntrance}
-              alt="Task Board"
             />
             <div className="absolute top-4 left-4">
               <h2 className="text_task">Task Board</h2>
@@ -65,12 +103,11 @@ const Child_main = () => {
         {/* Shop Card */}
         <div
           className="card2"
-          onClick={() => navigate('/child-shop')} // 添加导航
+          onClick={() => console.log('Shop clicked')}
         >
           <div className="relative">
             <img className="pic_shop"
               src={shopEntrance}
-              alt="Shop"
             />
             <div className="absolute top-4 left-4">
               <h2 className="text_shop">Shop</h2>
