@@ -9,7 +9,7 @@ function Header({ title, breadcrumb, onBreadcrumbClick }) {
         {breadcrumb && (
           <span
             className="breadcrumb"
-            onClick={onBreadcrumbClick} // 回调函数处理点击事件
+            onClick={onBreadcrumbClick} 
             style={{ cursor: 'pointer', color: '#007bff' }}
           >
             {breadcrumb}
@@ -23,14 +23,14 @@ function Header({ title, breadcrumb, onBreadcrumbClick }) {
 }
 
 Header.propTypes = {
-  title: PropTypes.string, // 当前标题，必需
-  breadcrumb: PropTypes.string, // 面包屑文字，非必需
-  onBreadcrumbClick: PropTypes.func, // 点击面包屑的回调
+  title: PropTypes.string, 
+  breadcrumb: PropTypes.string, 
+  onBreadcrumbClick: PropTypes.func, 
 };
 
 Header.defaultProps = {
-  breadcrumb: null, // 默认无面包屑
-  onBreadcrumbClick: null, // 默认无点击操作
+  breadcrumb: null, 
+  onBreadcrumbClick: null, 
 };
 
 export default Header;

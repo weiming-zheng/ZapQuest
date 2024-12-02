@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from 'react-router-dom';  // 添加这行
+import { useNavigate } from 'react-router-dom';  
 import { rewardService } from '../../services';
 
 function ChildShopRedeem() {
-  const navigate = useNavigate();  // 添加这行
+  const navigate = useNavigate();  
   const [activeTab, setActiveTab] = useState("shop");
   const [shopItems, setShopItems] = useState([]);
   const [purchasedItems, setPurchasedItems] = useState([]);
@@ -44,7 +44,6 @@ function ChildShopRedeem() {
   const handlePurchase = async (item) => {
     try {
       setLoading(true);
-      // 使用正确的购买方法
       await rewardService.purchaseItem(item.id);
       await fetchItems(); // Refresh both lists
       setModal({ show: true, type: "success", item: null });

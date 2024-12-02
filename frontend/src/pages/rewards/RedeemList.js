@@ -12,7 +12,7 @@ function RedeemList({id,iconId,title,price,isRedeemed,onRedeem }){
             <div className="post-actions">
             <button 
                 className={`btn ${isRedeemed ? "redeemed-btn" : "redeem-btn"}`} 
-                onClick={onRedeem}  // 直接调用onRedeem，因为已经在父组件绑定了参数
+                onClick={onRedeem}  
                 disabled={isRedeemed}
             >
                     {isRedeemed ? 'Redeemed' : 'Redeem'}

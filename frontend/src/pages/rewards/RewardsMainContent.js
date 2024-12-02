@@ -61,11 +61,7 @@ function RewardsMainContent() {
     }
   };
 
-  // 初始加载数据
   useEffect(() => {
-    // 开发阶段：设置测试 token
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJwYXJlbnRJZCI6MSwiZXhwIjoxNzMzMjc0OTMwfQ.9_Xqt64pJOmnh_KMSzbB_kH2si4M6M2EersMqtdFMPg');
-
     if (activeTab === "shop") {
       loadShopItems();
     } else {
@@ -83,7 +79,7 @@ function RewardsMainContent() {
     setModalMode("edit");
     setModalData({
       id: item.id,
-      name: item.name,  // 确保字段名称匹配
+      name: item.name,  
       price: item.price,
       iconId: item.iconId
     });
@@ -123,10 +119,10 @@ function RewardsMainContent() {
     handleModalClose();
   };
 
-  // 对redeemItems按照是否已赎回状态进行排序
+  // Sort redeemItems by whether they have been redeemed or not
   const getSortedRedeemItems = () => {
     return [...redeemItems].sort((a, b) => {
-      // 未赎回的排在前面
+      // Unredeemed items are ranked first
       if (a.isRedeemed === b.isRedeemed) {
         return 0;
       }

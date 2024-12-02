@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import './Task.css'; 
 import coin from "../../assets/coin.png"; 
-import { taskService } from '../../services/task.service'; // 导入任务服务
+import { taskService } from '../../services/task.service'; 
 
 const Task = ({ taskId, taskName, rewardAmount, initialStatus }) => {
-  const [isDone, setIsDone] = useState(initialStatus === 'complete'); // 根据初始状态设置是否完成
-  const [error, setError] = useState(null); // 错误状态
+  const [isDone, setIsDone] = useState(initialStatus === 'complete'); 
+  const [error, setError] = useState(null); 
 
-  // 完成任务处理
   const handleComplete = async () => {
-    setIsDone(true); // 本地状态更新为已完成
+    setIsDone(true); 
 
     const updatedTaskData = {
-      status: 'complete' // 设置为完成状态
+      status: 'complete' 
     };
 
     try {
-      // 调用 API 更新任务状态
       await taskService.updateTask('child', taskId, updatedTaskData);
-      console.log('任务已完成');
+      console.log('task completed');
     } catch (error) {
-      setError('任务更新失败，请重试');
-      console.error('更新任务失败:', error);
+      setError('update task failed,try again');
+      console.error('failed to update tasks:', error);
     }
   };
 
@@ -37,7 +35,7 @@ const Task = ({ taskId, taskName, rewardAmount, initialStatus }) => {
           <button
             onClick={handleComplete}
             className="task__complete-button"
-            disabled={isDone} // 如果任务已完成，则禁用按钮
+            disabled={isDone} 
           >
             Complete
           </button>
@@ -45,7 +43,7 @@ const Task = ({ taskId, taskName, rewardAmount, initialStatus }) => {
       </div>
       {isDone && <div className="task__done-text">Done!</div>}
       {isDone && <div className="task__overlay" />}
-      {error && <div className="task__error">{error}</div>} {/* 错误信息 */}
+      {error && <div className="task__error">{error}</div>} 
     </div>
   );
 };

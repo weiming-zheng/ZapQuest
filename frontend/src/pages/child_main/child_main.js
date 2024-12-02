@@ -12,7 +12,7 @@ const Child_main = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 检查登录状态
+    // check login status
     const token = localStorage.getItem('token');
     const storedName = localStorage.getItem('childName');
     
@@ -49,7 +49,7 @@ const Child_main = () => {
         {/* Task Board Card */}
         <div
           className="card"
-          onClick={() => navigate('/child-tasks')} // 添加导航
+          onClick={() => navigate('/child-tasks')} // add navigation
         >
           <div className="relative">
             <img className="pic_task"
@@ -65,7 +65,7 @@ const Child_main = () => {
         {/* Shop Card */}
         <div
           className="card2"
-          onClick={() => navigate('/child-shop')} // 添加导航
+          onClick={() => navigate('/child-shop')} // add navigation
         >
           <div className="relative">
             <img className="pic_shop"

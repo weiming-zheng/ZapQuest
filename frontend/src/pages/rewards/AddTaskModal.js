@@ -15,17 +15,16 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
 
   useEffect(() => {
     if (mode === "edit" && postData) {
-      // 从 postData 中读取当前项目的数据
-      setTitle(postData.name || "");  // 注意这里应该是 name 而不是 title
-      setPrice(postData.price?.toString() || ""); // 转换为字符串并处理可能的 undefined
-      setAvatar(postData.iconId || "🍦"); // 使用已有的图标或默认图标
+      // Read the data of the current project from postData
+      setTitle(postData.name || "");  
+      setPrice(postData.price?.toString() || "");
+      setAvatar(postData.iconId || "🍦"); 
     } else {
-      // 新建模式下重置为默认值
       setTitle("");
       setPrice("");
       setAvatar("🍦");
     }
-  }, [mode, postData]); // 依赖项包括 mode 和 postData
+  }, [mode, postData]); 
 
   const handleEmojiSelect = (emoji) => {
     setAvatar(emoji.emoji); // set the outcome as the user's choice
@@ -50,10 +49,10 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
   
       let response;
       if (mode === "edit" && postData?.id) {
-        // 编辑现有项目
+        //Edit existing project
         response = await rewardService.updateShopItem(postData.id, itemData);
       } else {
-        // 创建新项目
+        // create new project
         response = await rewardService.createShopItem(itemData);
       }
       
@@ -87,11 +86,11 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
   };
 
 
-  if (!isOpen) return null;  // 如果没有显示状态，则不渲染 Modal
+  if (!isOpen) return null; 
   
   return (
       <div>
-        {/* 弹窗 */}
+        {/* Modal */}
         <div className="modal">
           <h2 className="title"> {mode === "add" ? "Creat a Reward" : mode === "edit" ? "Edit a Reward" : "Delete a Reward"}</h2>
           <button className="close-button" onClick={onClose}>
@@ -166,7 +165,6 @@ function AddTaskModal ( {isOpen, onClose, mode, postData , onSuccess} ) {
             
         </div>
   
-        {/* 背景遮罩 */}
         <div className="modalOverlay"
           onClick={onClose}
 
