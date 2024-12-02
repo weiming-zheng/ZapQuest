@@ -46,7 +46,7 @@ function App() {
           <Route path="/parent-tasks" element={<ParentTasks />} />
 
           {/* Community Posts page*/}
-          <Route path="/community-detail" element={<CommunityDetailPage />} />
+          <Route path="/community-detail/:id" element={<CommunityDetailPage />} />
 
           {/*Rewards page*/}
           <Route path="/rewards" element={<Rewards_mainpage />} />
