@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';  // 添加这行
 import { rewardService } from '../../services';
 
 function ChildShopRedeem() {
+  const navigate = useNavigate();  // 添加这行
   const [activeTab, setActiveTab] = useState("shop");
   const [shopItems, setShopItems] = useState([]);
   const [purchasedItems, setPurchasedItems] = useState([]);
@@ -11,7 +13,7 @@ function ChildShopRedeem() {
   const [error, setError] = useState(null);
 
   // Fetch shop items, purchased items and coin balance
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -24,26 +26,33 @@ function ChildShopRedeem() {
       setPurchasedItems(purchasedResponse);
       setCoins(coinResponse);
     } catch (err) {
+      if (err.response?.status === 401) {
+        navigate('/child-login', { replace: true });
+        return;
+      }
       setError(err.message || "Failed to fetch items");
     } finally {
       setLoading(false);
     }
-  };
+  }, [navigate]);
+
 
   useEffect(() => {
-    // 为了测试，先硬编码设置 child 的 token
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJjaGlsZElkIjoxLCJleHAiOjE3MzMzMjc5OTF9.XCr4fzbyzWGEM7VeIb_791uiokJnukqaHbXdW-z0p0w');
     fetchItems();
-  }, []);
+  }, [fetchItems]);
 
-  // Handle purchase of shop item
   const handlePurchase = async (item) => {
     try {
       setLoading(true);
-      await rewardService.createShopItem(item.id);
+      // 使用正确的购买方法
+      await rewardService.purchaseItem(item.id);
       await fetchItems(); // Refresh both lists
       setModal({ show: true, type: "success", item: null });
     } catch (err) {
+      if (err.response?.status === 401) {
+        navigate('/child-login', { replace: true });
+        return;
+      }
       setModal({ 
         show: true, 
         type: "error", 
@@ -63,6 +72,10 @@ function ChildShopRedeem() {
       await fetchItems(); // Refresh the lists
       setModal({ show: true, type: "redeemed", item: null });
     } catch (err) {
+      if (err.response?.status === 401) {
+        navigate('/child-login', { replace: true });
+        return;
+      }
       setModal({ 
         show: true, 
         type: "error", 
@@ -73,7 +86,6 @@ function ChildShopRedeem() {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col">
       {/* Coins Display */}
