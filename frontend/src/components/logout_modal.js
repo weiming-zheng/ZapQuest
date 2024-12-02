@@ -23,7 +23,7 @@ const LogoutModal = ({ isOpen, onClose, onConfirm, title, message }) => {
             onClick={onClose}
             className="px-4 py-2 rounded text-gray-600 hover:bg-gray-100"
           >
-            Cancle
+            Cancel
           </button>
           <button
             onClick={onConfirm}
