@@ -7,15 +7,17 @@ function Header({ title, breadcrumb, onBreadcrumbClick }) {
     <header className="header">
       <nav className="header-nav">
         {breadcrumb && (
-          <span
-            className="breadcrumb"
-            onClick={onBreadcrumbClick} 
-            style={{ cursor: 'pointer', color: '#007bff' }}
-          >
-            {breadcrumb}
-          </span>
+          <>
+            <span
+              className="breadcrumb"
+              onClick={onBreadcrumbClick}
+              style={{ cursor: 'pointer', color: '#007bff' }}
+            >
+              {breadcrumb}
+            </span>
+            <span className="breadcrumb-separator"> / </span>
+          </>
         )}
-        {breadcrumb && <span className="breadcrumb-separator"> / </span>}
         <span className="current-title">{title}</span>
       </nav>
     </header>
@@ -23,14 +25,14 @@ function Header({ title, breadcrumb, onBreadcrumbClick }) {
 }
 
 Header.propTypes = {
-  title: PropTypes.string, 
-  breadcrumb: PropTypes.string, 
-  onBreadcrumbClick: PropTypes.func, 
+  title: PropTypes.string.isRequired,
+  breadcrumb: PropTypes.string,
+  onBreadcrumbClick: PropTypes.func,
 };
 
 Header.defaultProps = {
-  breadcrumb: null, 
-  onBreadcrumbClick: null, 
+  breadcrumb: null,
+  onBreadcrumbClick: null,
 };
 
 export default Header;

@@ -1,7 +1,7 @@
 .header {
   display: flex;
   padding: 20px;
-  background-color:rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
   color: white;
   position: fixed;
   left: 16%;
@@ -9,6 +9,7 @@
   width: calc(100% - 16%);
   height: 75px;
   color: #282c34;
+  z-index: 10; /* Keep it on top of other content */
 }
 
 .header-nav {
