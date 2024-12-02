@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Task from './Task';
-import { taskService } from '../../services/task.service'; // 导入taskService
+import { taskService } from '../../services/task.service'; 
 import './Child_task.css';
 
 const Child_task = () => {
@@ -59,6 +59,7 @@ const Child_task = () => {
             taskId={task.id}
             taskName={task.name}
             rewardAmount={task.bonus}
+            initialStatus={task.status}
           />
         ))}
       </main>

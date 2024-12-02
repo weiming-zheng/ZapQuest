@@ -14,7 +14,7 @@ function Community_detailpage(){
 
     return(
         <div className='community_detailpage'>
-            <Header title="Post Title" breadcrumb="Community" onBreadcrumbClick={handleBreadcrumbClick} />
+            <Header  breadcrumb="Community" onBreadcrumbClick={handleBreadcrumbClick} />
             <MainContent />
             <SideBar style={{zIndex:9999}} />
         </div>
