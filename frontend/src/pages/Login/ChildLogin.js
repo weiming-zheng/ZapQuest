@@ -20,7 +20,7 @@ function ChildLogin() {
     setIsLoading(true);
     try {
       await authService.loginAsChild(loginCode);
-      // Navigate to child dashboard on successful login
+      // token 和 name 已经在 authService 中被存储
       navigate('/child-main');
     } catch (err) {
       setError(err.message);

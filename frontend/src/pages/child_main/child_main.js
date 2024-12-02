@@ -1,70 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import taskEntrance from "../../assets/taskEntrance.png";
 import shopEntrance from "../../assets/shopEntrance.png";
-import axios from 'axios';
 import "./child_main.css"
 import Drawer from "./drawer.js";
 
 const Child_main = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [name, setName] = useState('');
-  const [token, setToken] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // const loginCode = "0AL3P59806";
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!loginCode) {
-        setError('No login code found');
-        setIsLoading(false);
-        return;
-      }
+    // 检查登录状态
+    const token = localStorage.getItem('token');
+    const storedName = localStorage.getItem('childName');
+    
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-      try {
-        const response = await axios({
-          method: 'post',
-          url: '/api/v1/auth/child/login',
-          data: { loginCode },  // 按照接口文档的格式发送数据
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        // 处理返回数据
-        if (response.data.code === 1) {  // 成功状态码为 1
-          const { name, token } = response.data.data;
-          setName(name);
-          setToken(token);
-          // 可以选择将 token 存储起来
-          sessionStorage.setItem('token', token);
-        } else {
-          throw new Error(response.data.msg);
-        }
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.response?.data?.msg || err.message);
-        setIsLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [loginCode]);
-
-  if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="flex h-screen items-center justify-center text-red-500">{error}</div>;
-  }
-
-
+    if (storedName) {
+      setName(storedName);
+    }
+  }, [navigate]);
 
   const MainView = () => (
-
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Drawer Component */}
       <Drawer
@@ -81,16 +43,18 @@ const Child_main = () => {
           ZapQuest
         </h1>
       </header>
+
       {/* Main Content */}
       <main className="flex-1 p-4 space-y-4">
         {/* Task Board Card */}
         <div
           className="card"
-          onClick={() => console.log('Task Board clicked')}
+          onClick={() => navigate('/child-tasks')} // 添加导航
         >
           <div className="relative">
             <img className="pic_task"
               src={taskEntrance}
+              alt="Task Board"
             />
             <div className="absolute top-4 left-4">
               <h2 className="text_task">Task Board</h2>
@@ -101,11 +65,12 @@ const Child_main = () => {
         {/* Shop Card */}
         <div
           className="card2"
-          onClick={() => console.log('Shop clicked')}
+          onClick={() => navigate('/child-shop')} // 添加导航
         >
           <div className="relative">
             <img className="pic_shop"
               src={shopEntrance}
+              alt="Shop"
             />
             <div className="absolute top-4 left-4">
               <h2 className="text_shop">Shop</h2>

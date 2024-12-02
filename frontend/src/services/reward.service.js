@@ -57,6 +57,18 @@ export const rewardService = {
       } catch (error) {
         throw error;
       }
+  },
+
+  // get the amount of coin
+  getCoinBalance: async () => {
+    try {
+      const response = await api.get(`/task/child/balance`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
   }
+
+
 
 };

@@ -43,25 +43,23 @@ export const authService = {
   },
 
   loginAsChild: async (loginCode) => {
-    const data = await api.post('/auth/child/login', {
-      loginCode
-    });
-    
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return { 
-        status: "success", 
-        role: "child",
-        name: data.name
-      };
+    try {
+      const response = await api.post('/auth/child/login', {
+        loginCode
+      });
+      
+      // 由于 axios-config 已经处理了基础的错误情况和数据提取
+      // 我们只需要处理登录特定的逻辑
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('childName', response.name);
+        return { status: "success", role: "child" };
+      }
+      
+      throw new Error('Login failed');
+    } catch (error) {
+      throw error;
     }
-    
-    throw new Error('Login failed: No token received');
-  },
-
-  logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('childLoginCode');
   },
 
   isAuthenticated: () => {
