@@ -11,11 +11,11 @@
     background-color: white; /* 设置背景色 */
     padding: 10px;
     text-align: center;
-    border: 1px solid #ccc;
     border-radius: 15px;   
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */ 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     margin-top: 10px;
     width: 100%;
+    
 }
 
 .title1{
