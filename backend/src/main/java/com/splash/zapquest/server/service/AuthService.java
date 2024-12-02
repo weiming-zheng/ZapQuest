@@ -59,7 +59,7 @@ public class AuthService {
         // Create new parent
         Parent parent = Parent.builder()
                 .email(email)
-                .password(passwordEncoder.encode(email))
+                .password(passwordEncoder.encode(password))
                 .build();
 
         // Create child with encrypted login code
