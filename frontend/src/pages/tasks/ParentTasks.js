@@ -191,7 +191,7 @@ function ParentTasks() {
         {/* Task List */}
 
         {/* Task List */}
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 pl-8">
           {loading ? (
             <div className="text-center py-4">Loading tasks...</div>
           ) : (
