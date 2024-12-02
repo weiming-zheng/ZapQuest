@@ -1,35 +1,54 @@
 // Child_task.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Task from './Task'; 
-import './Child_task.css'; 
+import Task from './Task';
+import { taskService } from '../../services/task.service'; // 导入taskService
+import './Child_task.css';
 
 const Child_task = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const [tasks, setTasks] = useState([]);  // 用来存储从后端获取的任务数据
+  const [loading, setLoading] = useState(true);  // 用来控制加载状态
+  const [error, setError] = useState(null);  // 用来处理错误
 
-  const tasks = [
-    { taskId: 1, taskName: 'Complete Homework', rewardAmount: 50 },
-    { taskId: 2, taskName: 'Clean Room', rewardAmount: 30 },
-    { taskID: 3, taskName: 'Sleep' , rewardAmount: 1 },
-    { taskId: 4, taskName: 'Practice Piano', rewardAmount: 40 },
-    { taskId: 5, taskName: 'Feed Pet', rewardAmount: 20 },
-    { taskId: 6, taskName: 'Feed Pet', rewardAmount: 20 },
-    { taskId: 5, taskName: 'Feed Pet', rewardAmount: 20 },
-    { taskId: 5, taskName: 'Feed Pet', rewardAmount: 20 },
-    { taskId: 5, taskName: 'Feed Pet', rewardAmount: 20 },
-    { taskId: 5, taskName: 'Feed Pet', rewardAmount: 20 },
+  // 获取任务数据的函数
+  const fetchTasks = async () => {
+    try {
+      const response = await taskService.getTasks('child'); // 假设是获取儿童任务数据
+      console.log('获取的任务数据:', response);
+      setTasks(response); // 将后端数据设置到tasks
+    } catch (err) {
+      console.error('获取任务失败:', err);
+      setError('无法加载任务数据');
+    } finally {
+      setLoading(false); // 加载完成后设置为false
+    }
+  };
 
-  ];
+  // 在组件挂载时获取任务数据
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  // 如果数据正在加载中，显示 loading 状态
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // 如果加载失败，显示错误信息
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="child-task">
       {/* Header */}
       <header className="child-task__header">
         <button
-          onClick={() => navigate('/child-main')} 
+          onClick={() => navigate('/child-main')}
           className="child-task__back-button"
         >
-          <i className="fas fa-arrow-left child-task__back-icon"></i> 
+          <i className="fas fa-arrow-left child-task__back-icon"></i>
         </button>
         <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-semibold">
           ZapQuest
@@ -40,10 +59,10 @@ const Child_task = () => {
       <main className="child-task__content">
         {tasks.map((task) => (
           <Task
-            key={task.taskId}
-            taskId={task.taskId}
-            taskName={task.taskName}
-            rewardAmount={task.rewardAmount}
+            key={task.id}
+            taskId={task.id}
+            taskName={task.name}
+            rewardAmount={task.bonus}
           />
         ))}
       </main>
