@@ -6,18 +6,16 @@ const PostDetail = ({ title, postTime, content, initialLikes }) => {
   const [likes, setLikes] = useState(initialLikes);
   const [liked, setLiked] = useState(false);
 
-  // 点赞按钮点击事件
   const handleLikeClick = () => {
     setLiked(!liked);
     setLikes(likes + (liked ? -1 : 1));
   };
 
-  // 跳转到评论区底部
+  // junp to bottom of commentbox
   const scrollToCommentBox = () => {
     const commentsSection = document.querySelector('.comments-section');
     const commentInput = document.querySelector('.comment-input');
     if (commentsSection && commentInput) {
-      // 确保滚动到输入框在可视范围内
       commentsSection.scrollTop = commentInput.offsetTop;
     }
   };
@@ -32,13 +30,13 @@ const PostDetail = ({ title, postTime, content, initialLikes }) => {
       </div>
 
       <div className="post-actions">
-        {/* 添加评论跳转按钮 */}
+        {/* add comment button */}
         <button className="comment-button" onClick={scrollToCommentBox}>
           Comment
         </button>
-        {/* 点赞按钮 */}
+        {/* like button */}
         <button
-          className={`like-button ${liked ? 'liked' : ''}`} // 动态添加 liked 类
+          className={`like-button ${liked ? 'liked' : ''}`} 
           onClick={handleLikeClick}
         >
           <i className="far fa-thumbs-up"></i>

@@ -7,17 +7,17 @@ import './community_mainpage.css';
 
 function Community_mainpage() {
   const [isMyPost, setIsMyPost] = useState(false);
-  const [buttonText, setButtonText] = useState('我的帖子');
+  const [buttonText, setButtonText] = useState('MyPost');
 
   const handleToggleMyPost = () => {
     setIsMyPost(!isMyPost);  
-    setButtonText(isMyPost ? '我的帖子' : '所有帖子');
+    setButtonText(isMyPost ? 'MyPost' : 'AllPost');
   };
 
   return (
     <div className="community_mainpage">
       <SideBar className="sidebar" />
-      <Header title="社区" />
+      <Header title="Community" />
       <MainContent 
         isMyPost={isMyPost} 
         onToggleMyPost={handleToggleMyPost} 

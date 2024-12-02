@@ -8,23 +8,23 @@ import Modal from '../../components/Modal';
 import { forumService } from '../../services';
 
 function MainContent() {
-    const [allPosts, setAllPosts] = useState([]); // 存储所有帖子
-    const [myPosts, setMyPosts] = useState([]);  // 存储我的帖子
-    const [isMyPost, setIsMyPost] = useState(false); // 当前是否为我的帖子视图
-    const [sortOrder, setSortOrder] = useState("mostRecent"); // 排序方式
+    const [allPosts, setAllPosts] = useState([]); // store all posts
+    const [myPosts, setMyPosts] = useState([]);  // store my posts
+    const [isMyPost, setIsMyPost] = useState(false); // check if is MyPost
+    const [sortOrder, setSortOrder] = useState("mostRecent"); 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState("add");
     const [modalData, setModalData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // 格式化日期
+    // format date
     const formatDate = (dateArray) => {
         const [year, month, day, hour, minute, second] = dateArray;
         return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day} ${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}:${second < 10 ? `0${second}` : second}`;
     };
 
-    // 初始化“所有帖子”和“我的帖子”
+    // initial all posts and my posts
     const initializePosts = async () => {
         setLoading(true);
         setError(null);
@@ -38,22 +38,20 @@ function MainContent() {
             setAllPosts(allThreads);
             setMyPosts(myThreads);
         } catch (error) {
-            console.error("初始化帖子失败:", error);
-            setError("帖子加载失败，请稍后再试");
+            console.error("initialize failed:", error);
+            setError("loading fail");
         } finally {
             setLoading(false);
         }
     };
 
-    // 在组件加载时调用
     useEffect(() => {
         initializePosts();
     }, []);
 
-    // 过滤当前视图的帖子
     const postsToDisplay = isMyPost ? myPosts : allPosts;
 
-    // 排序帖子列表
+    // rank post list
     const getSortedPosts = (posts) => {
         if (!Array.isArray(posts)) {
             console.error("Expected posts to be an array, but got", typeof posts);
@@ -62,16 +60,16 @@ function MainContent() {
 
         return [...posts].sort((a, b) => {
             if (sortOrder === "mostLikes") {
-                return b.like - a.like; // 按点赞数排序
+                return b.like - a.like; // rank with most liked
             }
-            // 处理时间排序，确保 createdAt 是有效的时间格式
+            
             const dateA = new Date(a.createdAt).getTime();
             const dateB = new Date(b.createdAt).getTime();
-            return dateB - dateA; // 按时间排序
+            return dateB - dateA; // rank with most recent
         });
     };
 
-    // 添加新帖子
+    // add a new post
     const handleAddPost = async (data) => {
         try {
             const response = await forumService.createThread(data);
@@ -79,34 +77,33 @@ function MainContent() {
             if (response.success) {
                 const newPost = response.data;
 
-                // 更新本地缓存
                 setAllPosts((prevAllPosts) => [newPost, ...prevAllPosts]);
                 setMyPosts((prevMyPosts) => [newPost, ...prevMyPosts]);
             } else {
-                console.error("新增帖子失败:", response.message);
+                console.error("add failed:", response.message);
             }
         } catch (error) {
-            console.error("新增帖子失败:", error);
+            console.error("add failed:", error);
         } finally {
             setIsModalVisible(false);
         }
     };
 
-    // 编辑帖子
+    // edit post
     const handleEditPost = (post) => {
         setModalMode("edit");
         setModalData(post);
         setIsModalVisible(true);
     };
 
-    // 删除帖子
+    // delete post
     const handleDeletePost = (post) => {
         setModalMode("delete");
         setModalData(post);
         setIsModalVisible(true);
     };
 
-    // 提交数据（增加、编辑、删除帖子）
+    // submit data(edit,delete and add)
     const handleSubmit = async (data) => {
         try {
             let response;
@@ -144,13 +141,13 @@ function MainContent() {
                 }
             }
         } catch (error) {
-            console.error("提交数据失败:", error);
+            console.error("submit failed:", error);
         } finally {
             setIsModalVisible(false);
         }
     };
 
-    // 点赞帖子
+    // like a post
     const handleLikePost = async (postId, currentLikeStatus) => {
         try {
             const response = await forumService.toggleLike(postId, !currentLikeStatus);
@@ -169,11 +166,10 @@ function MainContent() {
                 );
             }
         } catch (error) {
-            console.error("更新点赞状态失败:", error);
+            console.error("update failed:", error);
         }
     };
 
-    // 关闭模态框
     const handleCloseModal = () => {
         setIsModalVisible(false);
     };
@@ -181,7 +177,7 @@ function MainContent() {
     return (
         <div className="maincontent">
             {loading ? (
-                <div className="loading">加载中...</div>
+                <div className="loading">loading...</div>
             ) : error ? (
                 <div className="error">{error}</div>
             ) : (
@@ -192,14 +188,14 @@ function MainContent() {
                             value={sortOrder}
                             onChange={(e) => setSortOrder(e.target.value)}
                         >
-                            <option value="mostRecent">最新</option>
-                            <option value="mostLikes">最多点赞</option>
+                            <option value="mostRecent">Most recent</option>
+                            <option value="mostLikes">Most liked</option>
                         </select>
                         <div className="search-post-container">
                             <SearchBar />
                             <MyPost
                                 onClick={() => setIsMyPost(!isMyPost)}
-                                buttonText={isMyPost ? "所有帖子" : "我的帖子"}
+                                buttonText={isMyPost ? "AllPost" : "MyPost"}
                             />
                             <PostButton onClick={() => setIsModalVisible(true)} />
                         </div>

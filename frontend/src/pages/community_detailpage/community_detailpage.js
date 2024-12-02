@@ -9,7 +9,7 @@ function Community_detailpage(){
     const navigate = useNavigate();
 
     const handleBreadcrumbClick = () => {
-        navigate('/community'); // 返回 Community 页面
+        navigate('/community'); 
       };
 
     return(

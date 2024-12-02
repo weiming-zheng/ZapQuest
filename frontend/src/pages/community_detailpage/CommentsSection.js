@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Comment from './Comment'; // 单条评论组件
+import Comment from './Comment'; 
 import './CommentsSection.css';
-import { forumService } from '../../services/forum.service'; // 引入 forumService
+import { forumService } from '../../services/forum.service'; 
 
 const CommentsSection = ({ commentsData, postId, updatePost }) => {
-  const [commentContent, setCommentContent] = useState(''); // 评论内容的状态
-  const [isSubmitting, setIsSubmitting] = useState(false); // 提交状态
+  const [commentContent, setCommentContent] = useState(''); 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
 
-  // 处理评论内容的变化
+  // handle change of comment
   const handleCommentChange = (event) => {
     setCommentContent(event.target.value);
   };
 
-  // 处理评论的提交
+  // handle submit of comment
   const handleCommentSubmit = async () => {
-    if (isSubmitting || !commentContent) return;  // 防止重复提交或空内容
+    if (isSubmitting || !commentContent) return;  
 
     setIsSubmitting(true);
 
     try {
-      // 发送 POST 请求将评论提交到后端
       const response = await forumService.createComment(postId, { content: commentContent });
       if (response.data.success) {
-        // 评论成功后更新帖子数据
-        updatePost();  // 调用父组件的更新方法，重新获取帖子数据
-        setCommentContent('');  // 清空评论输入框
+        // update
+        updatePost();  
+        setCommentContent('');  
       } else {
       }
     } catch (error) {
@@ -39,7 +38,7 @@ const CommentsSection = ({ commentsData, postId, updatePost }) => {
       <p className='comment-head'>Comments</p>
       <div className="comments-list">
         {commentsData.map((comment) => {
-          const formattedDate = formatDate(comment.createdAt);  // 格式化日期
+          const formattedDate = formatDate(comment.createdAt);  
           return (
             <Comment
               key={comment.id}
@@ -48,7 +47,7 @@ const CommentsSection = ({ commentsData, postId, updatePost }) => {
             />
           );
         })}
-        {/* 发布评论区域 */}
+        {/* area for posting comments  */}
         <div className="comment-input">
           <p className='comment-area'>Comment</p>
           <textarea
@@ -70,7 +69,6 @@ const CommentsSection = ({ commentsData, postId, updatePost }) => {
   );
 };
 
-// 格式化日期方法，将 [年, 月, 日, 时, 分, 秒, 毫秒] 数组转换为字符串
 const formatDate = (dateArray) => {
   const [year, month, day, hour, minute, second] = dateArray;
   return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day} ${hour}:${minute}:${second}`;
@@ -80,12 +78,12 @@ CommentsSection.propTypes = {
   commentsData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      createdAt: PropTypes.array.isRequired,  // 确保 `createdAt` 是一个数组
-      content: PropTypes.string.isRequired,  // 评论内容
+      createdAt: PropTypes.array.isRequired,  
+      content: PropTypes.string.isRequired,  
     })
   ).isRequired,
-  postId: PropTypes.number.isRequired,  // 帖子的 ID
-  updatePost: PropTypes.func.isRequired,  // 更新帖子数据的回调
+  postId: PropTypes.number.isRequired,  
+  updatePost: PropTypes.func.isRequired,  
 };
 
 export default CommentsSection;
