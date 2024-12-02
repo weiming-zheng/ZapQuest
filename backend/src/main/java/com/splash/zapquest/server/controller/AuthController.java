@@ -34,6 +34,7 @@ public class AuthController {
     @PostMapping("/child/login")
     public Result<ChildAuthDto> loginChild(@RequestBody ChildLoginVo childLoginVo) {
         log.info("Child login attempt with code: {}", childLoginVo.getLoginCode());
-        return authService.loginChild(childLoginVo.getLoginCode());
+        var res = authService.loginChild(childLoginVo.getLoginCode());
+        return res;
     }
 }

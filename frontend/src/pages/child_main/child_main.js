@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu } from 'lucide-react';
 import taskEntrance from "../../assets/taskEntrance.png";
 import shopEntrance from "../../assets/shopEntrance.png";
@@ -13,7 +13,7 @@ const Child_main = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loginCode = "0AL3P59806";
+  // const loginCode = "0AL3P59806";
 
 
   useEffect(() => {
@@ -61,16 +61,16 @@ const Child_main = () => {
     return <div className="flex h-screen items-center justify-center text-red-500">{error}</div>;
   }
 
-  
+
 
   const MainView = () => (
-    
-      <div className="flex flex-col h-screen bg-gray-100">
-        {/* Drawer Component */}
-      <Drawer 
-      isOpen={isDrawerOpen} 
-      onClose={() => setIsDrawerOpen(false)} 
-      username={name}
+
+    <div className="flex flex-col h-screen bg-gray-100">
+      {/* Drawer Component */}
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        username={name}
       />
       {/* Header */}
       <header className="p-4 flex items-center justify-between bg-white">
@@ -84,7 +84,7 @@ const Child_main = () => {
       {/* Main Content */}
       <main className="flex-1 p-4 space-y-4">
         {/* Task Board Card */}
-        <div 
+        <div
           className="card"
           onClick={() => console.log('Task Board clicked')}
         >
@@ -99,7 +99,7 @@ const Child_main = () => {
         </div>
 
         {/* Shop Card */}
-        <div 
+        <div
           className="card2"
           onClick={() => console.log('Shop clicked')}
         >

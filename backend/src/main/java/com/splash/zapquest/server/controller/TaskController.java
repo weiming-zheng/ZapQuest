@@ -61,4 +61,10 @@ public class TaskController {
         taskService.updateTask(taskId, taskChangeVo, userType, userId);
         return Result.success();
     }
+
+    @GetMapping("/child/balance")
+    public Result<Integer> getChildBalance() {
+        Long childId = BaseContext.getCurrentUser().id();
+        return Result.success(taskService.getChildBalance(childId));
+    }
 }

@@ -15,4 +15,5 @@ public class ThreadDto {
     private Boolean hasLiked; // If the requesting parent has liked this thread
     private Set<CommentDto> comments = new HashSet<>();
     private LocalDateTime createdAt;
+    private boolean isYours;
 }

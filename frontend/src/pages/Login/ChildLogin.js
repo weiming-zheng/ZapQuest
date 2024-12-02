@@ -1,21 +1,31 @@
-// src/components/ChildLogin.js
-
 import React, { useState } from 'react';
-import { loginAsChild } from '../../services/authService'; // Import the child login function
+import { useNavigate } from 'react-router-dom';
+import { authService } from '../../services/auth.service';
 
 function ChildLogin() {
+  const navigate = useNavigate();
   const [loginCode, setLoginCode] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error before each submission
+    setError('');
 
+    if (!loginCode.trim()) {
+      setError('Please enter your login code');
+      return;
+    }
+
+    setIsLoading(true);
     try {
-      const response = await loginAsChild(loginCode);
-      alert(`Welcome, ${response.role}!`);
+      await authService.loginAsChild(loginCode);
+      // Navigate to child dashboard on successful login
+      navigate('/child-main');
     } catch (err) {
-      setError(err.message); // Display error if login fails
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -25,23 +35,41 @@ function ChildLogin() {
         <h2 className="text-2xl font-semibold text-center mb-6">Child Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium">Enter Login Code</label>
+            <label className="block text-sm font-medium mb-1">Login Code</label>
             <input
               type="text"
               value={loginCode}
               onChange={(e) => setLoginCode(e.target.value)}
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your login code"
               required
-              className="w-full p-2 border rounded-md text-sm"
             />
           </div>
-          {error && <p className="text-red-600 text-sm">{error}</p>}
+
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            disabled={isLoading}
+            className={`w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors
+              ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Login
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
+
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => navigate('/login')}
+            className="text-blue-500 hover:text-blue-700"
+          >
+            Back to Role Selection
+          </button>
+        </div>
       </div>
     </div>
   );
