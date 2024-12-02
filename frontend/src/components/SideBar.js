@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SideBar.css';
 import Logo from '../assets/ZAP_QUEST.png';
 import LogoutModal from './logout_modal';
+import { authService } from '../services/auth.service';
 
 function SideBar() {
   const [showModal, setShowModal] = useState(false);
@@ -13,9 +15,14 @@ function SideBar() {
     // Update the currentPage when the URL changes
   }, [location]);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     setShowModal(false);
-    // Add logout logic here (e.g., clearing tokens, redirecting to login page)
+    // Call the logout method from auth service
+    authService.logoutParent();
+    // Navigate to login page
+    navigate('/login');
   };
 
   const renderSidebarLink = (to, page, label, iconClass) => {

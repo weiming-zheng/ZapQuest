@@ -1,4 +1,5 @@
 import api from './axios-config'
+import { useNavigate } from 'react-router-dom'
 
 export const authService = {
   register: async (email, password, childName) => {
@@ -62,11 +63,24 @@ export const authService = {
     }
   },
 
+  logoutChild: () => {
+    // Clear all auth-related items from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('childLoginCode');
+    localStorage.removeItem('childName');
+  },
+
+  logoutParent: () => {
+    // Clear all auth-related items from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('childLoginCode');
+  },
+
   isAuthenticated: () => {
     return !!localStorage.getItem('token');
   },
 
   getChildLoginCode: () => {
     return localStorage.getItem('childLoginCode');
-  }
+  },
 };
