@@ -108,7 +108,7 @@ public class TaskService {
             if (taskChangeVo.getStatus() != null) {
                 if (taskChangeVo.getStatus() == TaskStatus.COMPLETE) {
                     Child child = task.getCreator().getChild();
-                    child.setCoinBalance(child.getCoinBalance() + taskChangeVo.getBonus());
+                    child.setCoinBalance(child.getCoinBalance() + task.getBonus());
                     childRepository.save(child);
                     task.setFinishedAt(LocalDateTime.now());
                 }
