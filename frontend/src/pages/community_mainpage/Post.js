@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Post.css';
+import { Link } from 'react-router-dom';
 
 function Post({ postId, title, content, like, hasLiked, createdAt, onEdit, onDelete, onLike, isMyPost }) {
     const [currentLikes, setCurrentLikes] = useState(like);
@@ -36,7 +37,9 @@ function Post({ postId, title, content, like, hasLiked, createdAt, onEdit, onDel
     return (
         <div className="post">
             <div className="post-header">
-                <h3 className="post-title">{title}</h3>
+                <Link to={`/community-detail/${postId}`} className="post-title">
+                    {title}
+                </Link>
                 {isMyPost && (
                     <div className="post-actions">
                         <button onClick={handleEdit} className="edit-button">
