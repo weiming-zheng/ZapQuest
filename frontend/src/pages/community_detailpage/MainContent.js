@@ -21,18 +21,12 @@ const MainContent = () => {
       // 输出整个响应数据
       console.log("Full Response:", response);
   
-      if ( Array.isArray(response.data)) {
-        console.log("Response data is valid:", response.data);
+      const postId = parseInt(id, 10); // 确保 postId 是数字
+      console.log("Parsed postId:", postId);
   
-        const postId = parseInt(id, 10); // 转为数字
-        console.log("Parsed postId:", postId);
-  
-        // 遍历所有帖子并打印 ID
-        response.data.forEach(item => {
-          console.log("Post ID in data:", item.id);
-        });
-  
-        const post = response.data.find(item => item.id === postId);
+      // 检查数据结构并查找帖子
+      if (response && Array.isArray(response)) {
+        const post = response.find(item => item.id === postId);
         if (post) {
           console.log("Found Post:", post);
           setPost(post);
@@ -41,8 +35,8 @@ const MainContent = () => {
           setError("未找到对应的帖子");
         }
       } else {
-        console.error("Response data is invalid or empty:", response);
-        setError("帖子数据为空或无效");
+        console.error("Invalid data structure:", response.data);
+        setError("数据结构无效");
       }
     } catch (error) {
       console.error("加载帖子失败:", error);
@@ -51,6 +45,11 @@ const MainContent = () => {
       setLoading(false);
     }
   };
+
+    // 更新帖子数据（获取最新的帖子数据，包括新评论）
+    const updatePost = async () => {
+      await initializePost();
+    };
   
 
   // 在组件加载时调用
@@ -81,7 +80,11 @@ const MainContent = () => {
         content={post.content}
         initialLikes={post.like}
       />
-      <CommentsSection commentsData={post.comments} />  {/* 传递评论数据 */}
+      <CommentsSection
+        commentsData={post.comments}
+        postId={post.id}
+        updatePost={updatePost}  // 传递更新方法
+      />
     </div>
   );
 };
