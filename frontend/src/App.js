@@ -55,7 +55,7 @@ function App() {
           <Route path="/child-main" element={<Child_main />} />
 
           {/*Child task page*/}
-          <Route path='/child-task' element={<Child_task />} />
+          <Route path='/child-tasks' element={<Child_task />} />
 
           {/* Child Shop and Redeem page */}
           <Route path="/child-shop" element={<ChildShop/>} />
