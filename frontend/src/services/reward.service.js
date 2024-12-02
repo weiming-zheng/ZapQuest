@@ -38,16 +38,25 @@ export const rewardService = {
     }
   },
 
-  // 获取已购买物品列表
-  getPurchasedItems: async (userType) => {
-    try {
-      const response = await api.get(`/reward/${userType}/redeem`);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-
-  },
+    // 获取已购买物品列表
+    getPurchasedItems: async (userType) => {
+      try {
+        // 这里要确保直接返回 response，而不是包装过的结果
+        const response = await api.get(`/reward/${userType}/redeem`);
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
+    // 修改购买商品的方法
+    purchaseItem: async (shopItemId) => {
+      try {
+        const response = await api.post(`/reward/child/shop/${shopItemId}`);
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    },
 
   // 赎回物品
   redeemItem: async (userType, purchasedItemId) => {

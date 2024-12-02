@@ -45,12 +45,12 @@ function SideBar() {
       </div>
 
       <div className="copy-code">
-        <span>CHILD LOGIN CODE:</span>
-        <span id="code-text">232893218</span>
-        <button onClick={() => navigator.clipboard.writeText('your code')}>
-          <i className="fa fa-copy"></i>
-        </button>
-      </div>
+          <span>CHILD LOGIN CODE:</span>
+          <span id="code-text">{localStorage.getItem('childLoginCode')}</span>
+          <button onClick={() => navigator.clipboard.writeText(localStorage.getItem('childLoginCode'))}>
+            <i className="fa fa-copy"></i>
+          </button>
+      </div>  
 
       <nav className="sidebar-nav">
         {renderSidebarLink('/parent-tasks', '/parent-tasks', 'Tasks', 'far fa-clock')}
