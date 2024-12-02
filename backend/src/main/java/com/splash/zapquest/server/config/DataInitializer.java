@@ -107,32 +107,77 @@ public class DataInitializer {
     }
 
     private void initializePresetTasks() {
-        log.info("Initializing preset tasks");
+        if (presetTaskRepository.count() == 0) {
+            log.info("Initializing preset tasks database");
 
-        List<PresetTask> presetTasks = Arrays.asList(
-                PresetTask.builder()
-                        .name("Picture and Word Match")
-                        .label(TaskLabel.DUAL_PROCESSING)
-                        .setup("Prepare 5 flashcards with pictures and unrelated words.")
-                        .procedure("1. Show cards for 3-5 seconds each\n2. Ask about word-picture pairs")
-                        .build(),
+            PresetTask pictureWordMatch = PresetTask.builder()
+                    .name("Picture and Word Match")
+                    .label(TaskLabel.DUAL_PROCESSING)
+                    .setup("Prepare 5 flashcards. Each card shows a picture of an object (e.g., a cat, a ball, etc.) " +
+                            "and a simple word unrelated to the picture (e.g., the word \"tree\" next to the picture of a cat).")
+                    .procedure("1. Show a child a series of picture-word pairs (e.g., picture of a cat with the word \"tree\" next to it) for 3-5 seconds each.\n" +
+                            "2. After a few pairs, ask them questions requiring them to recall both the word and the picture simultaneously, like:\n" +
+                            "- \"What word was shown with the picture of the cat?\"\n" +
+                            "- \"What picture was shown with the word 'tree'?\"")
+                    .build();
 
-                PresetTask.builder()
-                        .name("Number Sequence Update")
-                        .label(TaskLabel.CONTINUOUS_UPDATING)
-                        .setup("Prepare a list of single-digit numbers.")
-                        .procedure("1. Read numbers one at a time\n2. Always remember the last 3 numbers\n3. Repeat them back")
-                        .build(),
+            PresetTask memoryBoxSwap = PresetTask.builder()
+                    .name("Memory Box Swap")
+                    .label(TaskLabel.CONTINUOUS_UPDATING)
+                    .setup("A box with 5-7 small everyday objects")
+                    .procedure("1. Place 5 objects in the box and let the child examine them for 30 seconds\n" +
+                            "2. Ask the child to close their eyes\n" +
+                            "3. Remove one object and add a new one\n" +
+                            "4. Child opens eyes and must:\n" +
+                            "   - Identify what object was removed\n" +
+                            "   - Identify what new object was added\n" +
+                            "5. Repeat this process, gradually increasing speed and number of swapped objects\n" +
+                            "6. To increase difficulty, ask them to recall the last 2-3 changes in sequence")
+                    .build();
 
-                PresetTask.builder()
-                        .name("Story Elements Arrangement")
-                        .label(TaskLabel.SERIAL_REORDERING)
-                        .setup("Prepare 6-8 cards with story elements.")
-                        .procedure("1. Mix up story elements\n2. Arrange in correct sequence\n3. Tell the story")
-                        .build()
-        );
+            PresetTask storyChainShuffle = PresetTask.builder()
+                    .name("Story Chain Shuffle")
+                    .label(TaskLabel.SERIAL_REORDERING)
+                    .setup("6-8 simple picture cards showing basic actions/events")
+                    .procedure("1. Create a simple story sequence with the cards (e.g., wake up → brush teeth → eat breakfast → go to school)\n" +
+                            "2. Let the child view the sequence for 30 seconds\n" +
+                            "3. Mix up the cards and ask them to:\n" +
+                            "   - Recreate the original order\n" +
+                            "   - Create a new logical sequence\n" +
+                            "4. Add challenge by:\n" +
+                            "   - Including more cards\n" +
+                            "   - Asking them to insert new events in the middle\n" +
+                            "   - Having them tell the story backwards")
+                    .build();
 
-        presetTaskRepository.saveAll(presetTasks);
+            PresetTask numberColorDance = PresetTask.builder()
+                    .name("Number-Color Dance")
+                    .label(TaskLabel.CONTINUOUS_UPDATING)
+                    .setup("Colored floor spots/papers (red, blue, green, yellow) and number cards 1-5")
+                    .procedure("1. Place colored spots in a line\n" +
+                            "2. Give simple movement rules:\n" +
+                            "   - Red spot = jump\n" +
+                            "   - Blue spot = spin\n" +
+                            "   - Green spot = clap\n" +
+                            "   - Yellow spot = wave\n" +
+                            "3. Show number cards to indicate repetitions\n" +
+                            "4. Child must:\n" +
+                            "   - Remember current color-action pairs\n" +
+                            "   - Perform each action the number of times shown\n" +
+                            "   - Adapt when you change color-action pairs mid-game\n" +
+                            "5. Increase difficulty by:\n" +
+                            "   - Changing color-action assignments during play\n" +
+                            "   - Adding more colors and actions\n" +
+                            "   - Making longer sequences")
+                    .build();
+
+            presetTaskRepository.save(pictureWordMatch);
+            presetTaskRepository.save(memoryBoxSwap);
+            presetTaskRepository.save(storyChainShuffle);
+            presetTaskRepository.save(numberColorDance);
+
+            log.info("Preset tasks database initialized");
+        }
     }
 
     private void initializeTasks(Parent parent) {
@@ -204,21 +249,21 @@ public class DataInitializer {
                         .name("30 Minutes Extra Play Time")
                         .price(200)
                         .creator(parent)
-                        .iconId("play_time")
+                        .iconId("🧒")
                         .build(),
 
                 ShopItem.builder()
                         .name("Choose Dinner Menu")
                         .price(300)
                         .creator(parent)
-                        .iconId("dinner")
+                        .iconId("🥣")
                         .build(),
 
                 ShopItem.builder()
                         .name("Movie Night Pick")
                         .price(400)
                         .creator(parent)
-                        .iconId("movie")
+                        .iconId("🎬")
                         .build()
         );
 
@@ -229,7 +274,7 @@ public class DataInitializer {
                 .name("Ice Cream Trip")
                 .price(150)
                 .child(parent.getChild())
-                .iconId("ice_cream")
+                .iconId("🍦")
                 .isRedeemed(false)
                 .build();
 
